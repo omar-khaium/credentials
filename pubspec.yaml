@@ -1,0 +1,29 @@
+name: credentials
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.7.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore:
+  firebase_core:
+  firebase_auth:
+  provider:
+  flutter_facebook_auth:
+  cached_network_image:
+  intl:
+  flutter_keyboard_visibility:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - images/

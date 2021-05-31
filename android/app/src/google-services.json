@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "523069224810",
+    "project_id": "passwords-644a6",
+    "storage_bucket": "passwords-644a6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:523069224810:android:c6567bf106e681dfb99713",
+        "android_client_info": {
+          "package_name": "com.omarkhaium.credentials.credentials"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "523069224810-r8id429lvv4l1h4e9lpjd1m4b8m0kv45.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVaYyeRC4yOrhrBM1VdKxwvt87F9My79o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "523069224810-r8id429lvv4l1h4e9lpjd1m4b8m0kv45.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
