@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Credentials',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -58,7 +59,7 @@ class _LauncherRouteState extends State<LauncherRoute> {
   void initState() {
     super.initState();
     Future.delayed(Duration(milliseconds: 1), () {
-      if (_authService.isAuthorized) {
+      if (_authService.isAuthorized && ModalRoute.of(context).isFirst) {
         Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
       } else {
         _authService.auth.authStateChanges().listen((user) {

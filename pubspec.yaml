@@ -17,6 +17,7 @@ dependencies:
   cached_network_image:
   intl:
   flutter_keyboard_visibility:
+  material_design_icons_flutter:
 
 dev_dependencies:
   flutter_test:

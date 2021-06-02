@@ -31,13 +31,30 @@ class DashboardRoute extends StatelessWidget {
           ),
           IconButton(
             icon: Icon(Icons.logout),
-            onPressed: () async {
-              showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-              bool status = await _authService.signOut();
-              Navigator.of(context).pop();
-              if (status) {
-                Navigator.of(context).pushReplacementNamed(AuthRoute().route);
-              }
+            onPressed: () {
+              showDialog(
+                  context: context,
+                  builder: (context) => AlertDialog(
+                        title: Text("Confirmation"),
+                        content: Text("Are you sure ?"),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text("Cancel")),
+                          ElevatedButton(
+                              onPressed: () async {
+                                showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                                bool status = await _authService.signOut();
+                                Navigator.of(context).pop();
+                                if (status) {
+                                  Navigator.of(context).pushReplacementNamed(AuthRoute().route);
+                                }
+                              },
+                              child: Text("Logout")),
+                        ],
+                      ));
             },
           ),
         ],
@@ -72,6 +89,7 @@ class DashboardRoute extends StatelessWidget {
                       ),
                       horizontalTitleGap: 0,
                       title: Text(credential.url, maxLines: 1, overflow: TextOverflow.ellipsis),
+                      subtitle: Text(credential.username, maxLines: 1, overflow: TextOverflow.ellipsis),
                       trailing: IconButton(
                         icon: Icon(Icons.edit_outlined, color: Colors.blue),
                         onPressed: () {

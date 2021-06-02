@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:credentials/src/provider_keyboard.dart';
 import 'package:credentials/src/utils/services/auth_service.dart';
 import 'package:credentials/src/view/routes/route_dashboard.dart';
+import 'package:credentials/src/view/widgets/auth/form_web.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +31,7 @@ class _AuthRouteState extends State<AuthRoute> {
     keyboardProvider.listen();
 
     return Scaffold(
-      body: Form(
+      body: kIsWeb ? WebAuthForm() :Form(
         key: _formKey,
         child: Align(
           alignment: Alignment.bottomCenter,
