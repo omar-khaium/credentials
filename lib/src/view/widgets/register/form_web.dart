@@ -1,16 +1,16 @@
 import 'package:credentials/src/utils/services/auth_service.dart';
+import 'package:credentials/src/view/routes/route_auth.dart';
 import 'package:credentials/src/view/routes/route_dashboard.dart';
-import 'package:credentials/src/view/routes/route_register.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-class WebAuthForm extends StatefulWidget {
+class WebRegisterForm extends StatefulWidget {
   @override
-  _WebAuthFormState createState() => _WebAuthFormState();
+  _WebRegisterFormState createState() => _WebRegisterFormState();
 }
 
-class _WebAuthFormState extends State<WebAuthForm> {
+class _WebRegisterFormState extends State<WebRegisterForm> {
   final AuthService _authService = AuthService();
 
   final TextEditingController _usernameController = TextEditingController();
@@ -47,10 +47,10 @@ class _WebAuthFormState extends State<WebAuthForm> {
                   scrollDirection: Axis.vertical,
                   children: [
                     SizedBox(height: 16),
-                    Icon(Icons.lock_outline_rounded, size: 72, color: Colors.blue),
+                    Icon(Icons.create_new_folder_outlined, size: 72, color: Colors.blue),
                     SizedBox(height: 8),
                     Container(
-                      child: Text("Welcome to Credentials", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline6),
+                      child: Text("Create account", textAlign: TextAlign.center, style: Theme.of(context).textTheme.headline6),
                       margin: EdgeInsets.symmetric(horizontal: 16),
                     ),
                     SizedBox(height: 16),
@@ -69,24 +69,7 @@ class _WebAuthFormState extends State<WebAuthForm> {
                         },
                         style: ElevatedButton.styleFrom(primary: Colors.blue.shade800, padding: EdgeInsets.all(16)),
                         icon: Icon(MdiIcons.facebook, color: Colors.white),
-                        label: Text("Sign in with Facebook", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
-                      ),
-                    ),
-                    SizedBox(height: 8),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-                          bool status = await _authService.signInAnonymously();
-                          Navigator.of(context).pop();
-                          if (status) {
-                            Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(primary: Colors.black, padding: EdgeInsets.all(16)),
-                        icon: Icon(Icons.face, color: Colors.white),
-                        label: Text("Sign in anonymously", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
+                        label: Text("Sign up with Facebook", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
                       ),
                     ),
                     SizedBox(height: 8),
@@ -168,14 +151,14 @@ class _WebAuthFormState extends State<WebAuthForm> {
                     ElevatedButton(
                       onPressed: () async {
                         if (_formKey.currentState.validate()) {
-                          bool status = await _authService.signInWithEmail(context, _usernameController.text, _passwordController.text);
+                          bool status = await _authService.signUpWithEmail(context, _usernameController.text, _passwordController.text);
                           if (status) {
                             Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
                           }
                         }
                       },
                       style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20), shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero)),
-                      child: Text("Sign in", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
+                      child: Text("Sign up", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -187,9 +170,9 @@ class _WebAuthFormState extends State<WebAuthForm> {
           child: Center(
             child: TextButton(
               onPressed: () {
-                Navigator.of(context).pushReplacementNamed(RegisterRoute().route);
+                Navigator.of(context).pushReplacementNamed(AuthRoute().route);
               },
-              child: Text("Sign up", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue)),
+              child: Text("Already has account", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.blue)),
               style: TextButton.styleFrom(primary: Colors.blue, padding: EdgeInsets.all(16)),
             ),
           ),

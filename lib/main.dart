@@ -3,6 +3,7 @@ import 'package:credentials/src/utils/services/auth_service.dart';
 import 'package:credentials/src/view/routes/route_archive.dart';
 import 'package:credentials/src/view/routes/route_auth.dart';
 import 'package:credentials/src/view/routes/route_dashboard.dart';
+import 'package:credentials/src/view/routes/route_register.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       home: LauncherRoute(),
       routes: {
         AuthRoute().route: (context) => AuthRoute(),
+        RegisterRoute().route: (context) => RegisterRoute(),
         DashboardRoute().route: (context) => DashboardRoute(),
         ArchiveRoute().route: (context) => ArchiveRoute(),
       },

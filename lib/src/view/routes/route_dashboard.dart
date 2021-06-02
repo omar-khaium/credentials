@@ -21,48 +21,64 @@ class DashboardRoute extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
+        leading: Tooltip(
+          message: 'Profile',
+          child: IconButton(
+            icon: CircleAvatar(
+              child: Icon(Icons.person_outline_rounded, color: Colors.white),
+              backgroundColor: Colors.blue.shade600,
+            ),
+            onPressed: () {},
+          ),
+        ),
         title: Text("Dashboard"),
         actions: [
-          IconButton(
-            icon: Icon(Icons.archive_outlined),
-            onPressed: () async {
-              Navigator.of(context).pushNamed(ArchiveRoute().route);
-            },
+          Tooltip(
+            message: 'Archives',
+            child: IconButton(
+              icon: Icon(Icons.archive_outlined),
+              onPressed: () async {
+                Navigator.of(context).pushNamed(ArchiveRoute().route);
+              },
+            ),
           ),
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              showDialog(
-                  context: context,
-                  builder: (context) => AlertDialog(
-                        title: Text("Confirmation"),
-                        content: Text("Are you sure ?"),
-                        actions: [
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text("Cancel")),
-                          ElevatedButton(
-                              onPressed: () async {
-                                showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-                                bool status = await _authService.signOut();
-                                Navigator.of(context).pop();
-                                if (status) {
-                                  Navigator.of(context).pushReplacementNamed(AuthRoute().route);
-                                }
-                              },
-                              child: Text("Logout")),
-                        ],
-                      ));
-            },
+          Tooltip(
+            message: 'Sign out',
+            child: IconButton(
+              icon: Icon(Icons.logout),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text("Confirmation"),
+                          content: Text("Are you sure ?"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Text("Cancel")),
+                            ElevatedButton(
+                                onPressed: () async {
+                                  showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                                  bool status = await _authService.signOut();
+                                  Navigator.of(context).pop();
+                                  if (status) {
+                                    Navigator.of(context).pushReplacementNamed(AuthRoute().route);
+                                  }
+                                },
+                                child: Text("Logout")),
+                          ],
+                        ));
+              },
+            ),
           ),
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
         stream: _apiService.instance
             .collection(credentialCollection)
-            .where("createdBy", isEqualTo: _authService.currentUser.uid)
+            .where("createdBy", isEqualTo: _authService.currentUser?.uid ?? "")
             .where("isActive", isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -78,27 +94,33 @@ class DashboardRoute extends StatelessWidget {
                   itemBuilder: (context, index) {
                     final Credential credential = Credential.fromSnapshot(snapshot.data.docs[index]);
                     return ListTile(
-                      leading: CachedNetworkImage(
-                        imageUrl: "https://www.google.com/s2/favicons?domain=${credential.url}",
-                        placeholder: (context, url) => Icon(Icons.image_outlined, color: Colors.blue),
-                        errorWidget: (context, url, error) => Icon(Icons.public, color: Colors.blue),
-                        fit: BoxFit.cover,
-                        filterQuality: FilterQuality.low,
-                        width: 24,
-                        height: 24,
+                      leading: Tooltip(
+                        message: 'Logo',
+                        child: CachedNetworkImage(
+                          imageUrl: "https://www.google.com/s2/favicons?domain=${credential.url}",
+                          placeholder: (context, url) => Icon(Icons.image_outlined, color: Colors.blue),
+                          errorWidget: (context, url, error) => Icon(Icons.public, color: Colors.blue),
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.low,
+                          width: 24,
+                          height: 24,
+                        ),
                       ),
                       horizontalTitleGap: 0,
-                      title: Text(credential.url, maxLines: 1, overflow: TextOverflow.ellipsis),
-                      subtitle: Text(credential.username, maxLines: 1, overflow: TextOverflow.ellipsis),
-                      trailing: IconButton(
-                        icon: Icon(Icons.edit_outlined, color: Colors.blue),
-                        onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => EditCredentialWidget(credential),
-                          ));
-                        },
-                        padding: EdgeInsets.zero,
-                        visualDensity: VisualDensity.compact,
+                      title: Tooltip(message: 'URL', child: Text(credential.url, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      subtitle: Tooltip(message: 'Username', child: Text(credential.username, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                      trailing: Tooltip(
+                        message: 'Edit',
+                        child: IconButton(
+                          icon: Icon(Icons.edit_outlined, color: Colors.blue),
+                          onPressed: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => EditCredentialWidget(credential),
+                            ));
+                          },
+                          padding: EdgeInsets.zero,
+                          visualDensity: VisualDensity.compact,
+                        ),
                       ),
                       onTap: () {
                         showDialog(context: context, builder: (context) => CredentialDetailsWidget(credential));
@@ -109,13 +131,16 @@ class DashboardRoute extends StatelessWidget {
                 );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(
-            builder: (context) => AddCredentialWidget(),
-          ));
-        },
+      floatingActionButton: Tooltip(
+        message: 'Add new credential',
+        child: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => AddCredentialWidget(),
+            ));
+          },
+        ),
       ),
     );
   }

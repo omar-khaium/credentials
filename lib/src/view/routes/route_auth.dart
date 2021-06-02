@@ -97,9 +97,7 @@ class _AuthRouteState extends State<AuthRoute> {
                 onPressed: () async {
                   keyboardProvider.hideKeyboard(context);
                   if(_formKey.currentState.validate()) {
-                    showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-                    bool status = await _authService.signInWithEmail(_usernameController.text, _passwordController.text);
-                    Navigator.of(context).pop();
+                    bool status = await _authService.signInWithEmail(context, _usernameController.text, _passwordController.text);
                     if (status) {
                       Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
                     }
