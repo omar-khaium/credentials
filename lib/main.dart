@@ -4,11 +4,21 @@ import 'package:credentials/src/view/routes/route_archive.dart';
 import 'package:credentials/src/view/routes/route_auth.dart';
 import 'package:credentials/src/view/routes/route_dashboard.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    FacebookAuth.instance.webInitialize(
+      appId: "190883392903715",
+      cookie: true,
+      xfbml: true,
+      version: "v10.0",
+    );
+  }
   await Firebase.initializeApp();
   runApp(MultiProvider(
     providers: [
