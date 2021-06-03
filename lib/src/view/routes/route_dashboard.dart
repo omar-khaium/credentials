@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:credentials/src/model/credential.dart';
 import 'package:credentials/src/utils/constants.dart';
@@ -76,11 +75,8 @@ class DashboardRoute extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _apiService.instance
-            .collection(credentialCollection)
-            .where("createdBy", isEqualTo: _authService.currentUser?.uid ?? "")
-            .where("isActive", isEqualTo: true)
-            .snapshots(),
+        stream:
+            _apiService.instance.collection(credentialCollection).where("createdBy", isEqualTo: _authService.currentUser?.uid ?? "").where("isActive", isEqualTo: true).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Center(child: Icon(Icons.error));
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
@@ -96,12 +92,10 @@ class DashboardRoute extends StatelessWidget {
                     return ListTile(
                       leading: Tooltip(
                         message: 'Logo',
-                        child: CachedNetworkImage(
-                          imageUrl: "https://www.google.com/s2/favicons?domain=${credential.url}",
-                          placeholder: (context, url) => Icon(Icons.image_outlined, color: Colors.blue),
-                          errorWidget: (context, url, error) => Icon(Icons.public, color: Colors.blue),
+                        child: Image.network(
+                          "${credential.url?.startsWith("http") ?? "" ? "" : "http://"}${credential.url}/favicon.ico",
                           fit: BoxFit.cover,
-                          filterQuality: FilterQuality.low,
+                          errorBuilder: (_,__,___)=>Icon(Icons.public),
                           width: 24,
                           height: 24,
                         ),

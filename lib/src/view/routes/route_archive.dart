@@ -6,7 +6,6 @@ import 'package:credentials/src/utils/services/api_service.dart';
 import 'package:credentials/src/utils/services/auth_service.dart';
 import 'package:credentials/src/view/widgets/widget_add_credential.dart';
 import 'package:credentials/src/view/widgets/widget_archived_credential_details.dart';
-import 'package:credentials/src/view/widgets/widget_credential_details.dart';
 import 'package:flutter/material.dart';
 
 class ArchiveRoute extends StatelessWidget {
@@ -22,11 +21,7 @@ class ArchiveRoute extends StatelessWidget {
         title: Text("Archive"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _apiService.instance
-            .collection(credentialCollection)
-            .where("createdBy", isEqualTo: _authService.currentUser.uid)
-            .where("isActive", isEqualTo: false)
-            .snapshots(),
+        stream: _apiService.instance.collection(credentialCollection).where("createdBy", isEqualTo: _authService.currentUser.uid).where("isActive", isEqualTo: false).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Center(child: Icon(Icons.error));
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
