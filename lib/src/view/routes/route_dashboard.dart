@@ -59,7 +59,10 @@ class DashboardRoute extends StatelessWidget {
                                 child: Text("Cancel")),
                             ElevatedButton(
                                 onPressed: () async {
-                                  showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                                  showDialog(
+                                      context: context,
+                                      builder: (context) => Center(child: CircularProgressIndicator()),
+                                      barrierDismissible: false);
                                   bool status = await _authService.signOut();
                                   Navigator.of(context).pop();
                                   if (status) {
@@ -75,8 +78,12 @@ class DashboardRoute extends StatelessWidget {
         ],
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream:
-            _apiService.instance.collection(credentialCollection).where("createdBy", isEqualTo: _authService.currentUser?.uid ?? "").where("isActive", isEqualTo: true).snapshots(),
+        stream: _apiService.instance
+            .collection(credentialCollection)
+            .where("createdBy", isEqualTo: _authService.currentUser?.uid ?? "")
+            .where("isActive", isEqualTo: true)
+            .orderBy("url")
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Center(child: Icon(Icons.error));
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
@@ -95,7 +102,7 @@ class DashboardRoute extends StatelessWidget {
                         child: Image.network(
                           "${credential.url?.startsWith("http") ?? "" ? "" : "http://"}${credential.url}/favicon.ico",
                           fit: BoxFit.cover,
-                          errorBuilder: (_,__,___)=>Icon(Icons.public),
+                          errorBuilder: (_, __, ___) => Icon(Icons.public),
                           width: 24,
                           height: 24,
                         ),

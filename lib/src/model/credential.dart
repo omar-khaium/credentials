@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:credentials/src/utils/encrypter.dart';
 import 'package:flutter/cupertino.dart';
 
 class Credential {
@@ -26,7 +27,7 @@ class Credential {
 
   Map<String, dynamic> get toCreateMap => <String, dynamic>{
         "username": username,
-        "password": password,
+        "password": Encrypted.to(password),
         "url": url,
         "remarks": remarks,
         "createdAt": createdAt,
@@ -38,7 +39,7 @@ class Credential {
   Map<String, dynamic> get toEditMap => <String, dynamic>{
         "id": id,
         "username": username,
-        "password": password,
+        "password": Encrypted.to(password),
         "url": url,
         "remarks": remarks,
         "createdAt": createdAt,
@@ -50,7 +51,7 @@ class Credential {
   Credential.fromSnapshot(QueryDocumentSnapshot snapshot) {
     id = snapshot.id;
     username = snapshot.get("username");
-    password = snapshot.get("password");
+    password = Encrypted.from(snapshot.get("password"));
     url = snapshot.get("url");
     remarks = snapshot.get("remarks") ?? "";
     createdAt = snapshot.get("createdAt");
