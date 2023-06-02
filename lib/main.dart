@@ -1,32 +1,40 @@
-import 'package:credentials/src/provider_keyboard.dart';
-import 'package:credentials/src/utils/services/auth_service.dart';
-import 'package:credentials/src/view/routes/route_archive.dart';
-import 'package:credentials/src/view/routes/route_auth.dart';
-import 'package:credentials/src/view/routes/route_dashboard.dart';
-import 'package:credentials/src/view/routes/route_register.dart';
+import 'src/provider_keyboard.dart';
+import 'src/utils/services/auth_service.dart';
+import 'src/view/routes/route_archive.dart';
+import 'src/view/routes/route_auth.dart';
+import 'src/view/routes/route_dashboard.dart';
+import 'src/view/routes/route_register.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 
+import 'firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (kIsWeb) {
-    FacebookAuth.instance.webInitialize(
+    await FacebookAuth.i.webAndDesktopInitialize(
       appId: "190883392903715",
       cookie: true,
       xfbml: true,
       version: "v10.0",
     );
   }
-  await Firebase.initializeApp();
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (context) => KeyboardProvider()),
-    ],
-    child: MyApp(),
-  ));
+
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => KeyboardProvider(),
+        ),
+      ],
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -60,19 +68,17 @@ class _LauncherRouteState extends State<LauncherRoute> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(milliseconds: 1), () {
-      if (_authService.isAuthorized && ModalRoute.of(context).isFirst) {
-        Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-      } else {
-        _authService.auth.authStateChanges().listen((user) {
-          if (user != null) {
-            Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-          } else {
-            Navigator.of(context).pushReplacementNamed(AuthRoute().route);
-          }
-        });
-      }
-    });
+    if (_authService.isAuthorized) {
+      Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
+    } else {
+      _authService.auth.authStateChanges().listen((user) {
+        if (user != null) {
+          Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
+        } else {
+          Navigator.of(context).pushReplacementNamed(AuthRoute().route);
+        }
+      });
+    }
   }
 
   @override

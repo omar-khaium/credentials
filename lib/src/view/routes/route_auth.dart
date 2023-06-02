@@ -1,10 +1,11 @@
-import 'package:credentials/src/provider_keyboard.dart';
-import 'package:credentials/src/utils/services/auth_service.dart';
-import 'package:credentials/src/view/routes/route_dashboard.dart';
-import 'package:credentials/src/view/widgets/auth/form_web.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../../provider_keyboard.dart';
+import '../../utils/services/auth_service.dart';
+import '../widgets/auth/form_web.dart';
+import 'route_dashboard.dart';
 
 class AuthRoute extends StatefulWidget {
   final String route = "/auth";
@@ -23,9 +24,11 @@ class _AuthRouteState extends State<AuthRoute> {
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
+  late KeyboardProvider keyboardProvider;
+
   @override
   Widget build(BuildContext context) {
-    final keyboardProvider = Provider.of<KeyboardProvider>(context);
+    keyboardProvider = Provider.of<KeyboardProvider>(context);
     keyboardProvider.listen();
 
     return Scaffold(
@@ -46,17 +49,29 @@ class _AuthRouteState extends State<AuthRoute> {
                     TextFormField(
                       controller: _usernameController,
                       keyboardType: TextInputType.emailAddress,
-                      validator: (val) => val.isEmpty ? "required" : null,
+                      validator: (val) => val?.isEmpty ?? true ? "required" : null,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
                         fillColor: Colors.grey.shade50,
                         contentPadding: EdgeInsets.all(12),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
-                        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.blue),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.blue),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.red),
+                        ),
                         errorStyle: TextStyle(fontSize: 9, height: .5),
                       ),
                     ),
@@ -66,17 +81,30 @@ class _AuthRouteState extends State<AuthRoute> {
                     TextFormField(
                       controller: _passwordController,
                       keyboardType: TextInputType.text,
-                      validator: (val) => val.isEmpty ? "required" : null,
+                      textInputAction: TextInputAction.go,
+                      validator: (val) => val?.isEmpty ?? true ? "required" : null,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       decoration: InputDecoration(
                         isDense: true,
                         filled: true,
                         fillColor: Colors.grey.shade50,
                         contentPadding: EdgeInsets.all(12),
-                        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
-                        focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.blue),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.blue),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(4),
+                          borderSide: BorderSide(width: .5, color: Colors.red),
+                        ),
                         errorStyle: TextStyle(fontSize: 9, height: .5),
                         suffixIcon: IconButton(
                           padding: EdgeInsets.zero,
@@ -94,25 +122,31 @@ class _AuthRouteState extends State<AuthRoute> {
                     ),
                     SizedBox(height: 16),
                     ElevatedButton(
-                      onPressed: () async {
-                        keyboardProvider.hideKeyboard(context);
-                        if (_formKey.currentState.validate()) {
-                          bool status = await _authService.signInWithEmail(context, _usernameController.text, _passwordController.text);
-                          if (status) {
-                            Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-                          }
-                        }
-                      },
+                      onPressed: _handleLoginForm,
                       child: Text("Sign in"),
                     ),
-                    Visibility(visible: keyboardProvider.hidden, child: SizedBox(height: 16)),
-                    Visibility(visible: keyboardProvider.hidden, child: Divider()),
-                    Visibility(visible: keyboardProvider.hidden, child: SizedBox(height: 16)),
+                    Visibility(
+                      visible: keyboardProvider.hidden,
+                      child: SizedBox(height: 16),
+                    ),
+                    Visibility(
+                      visible: keyboardProvider.hidden,
+                      child: Divider(),
+                    ),
+                    Visibility(
+                      visible: keyboardProvider.hidden,
+                      child: SizedBox(height: 16),
+                    ),
                     Visibility(
                       visible: keyboardProvider.hidden,
                       child: ElevatedButton(
                         onPressed: () async {
-                          showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                          showDialog(
+                              context: context,
+                              builder: (context) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                              barrierDismissible: false);
                           bool status = await _authService.signInWithFacebook();
                           Navigator.of(context).pop();
                           if (status) {
@@ -122,12 +156,20 @@ class _AuthRouteState extends State<AuthRoute> {
                         child: Text("Sign in with Facebook"),
                       ),
                     ),
-                    Visibility(visible: keyboardProvider.hidden, child: SizedBox(height: 16)),
+                    Visibility(
+                      visible: keyboardProvider.hidden,
+                      child: SizedBox(height: 16),
+                    ),
                     Visibility(
                       visible: keyboardProvider.hidden,
                       child: ElevatedButton(
                         onPressed: () async {
-                          showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                          showDialog(
+                              context: context,
+                              builder: (context) => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                              barrierDismissible: false);
                           bool status = await _authService.signInAnonymously();
                           Navigator.of(context).pop();
                           if (status) {
@@ -142,5 +184,15 @@ class _AuthRouteState extends State<AuthRoute> {
               ),
             ),
     );
+  }
+
+  void _handleLoginForm() async {
+    keyboardProvider.hideKeyboard(context);
+    if (_formKey.currentState?.validate() ?? false) {
+      bool status = await _authService.signInWithEmail(context, _usernameController.text, _passwordController.text);
+      if (status) {
+        Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
+      }
+    }
   }
 }

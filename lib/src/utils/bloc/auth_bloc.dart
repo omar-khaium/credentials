@@ -2,7 +2,7 @@ import 'dart:async';
 
 class AuthBLoC {
 
-  final StreamController _authStatusController = StreamController();
+  final StreamController<bool> _authStatusController = StreamController();
 
   StreamSink<bool> get authStatusSink => _authStatusController.sink;
 

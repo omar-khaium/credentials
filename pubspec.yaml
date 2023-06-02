@@ -4,25 +4,24 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: '>=2.19.6 <3.0.0'
 
 dependencies:
+  cached_network_image: ^3.2.3
+  cloud_firestore: ^4.8.0
+  encrypt: ^5.0.1
+  firebase_auth: ^4.6.2
+  firebase_core: ^2.13.1
   flutter:
     sdk: flutter
-  cloud_firestore:
-  firebase_core:
-  firebase_auth:
-  provider:
-  flutter_facebook_auth:
-  cached_network_image:
-  intl:
-  flutter_keyboard_visibility:
-  material_design_icons_flutter:
-  encrypt: ^5.0.1
+  flutter_facebook_auth: ^5.0.11
+  flutter_keyboard_visibility: ^5.4.1
+  intl: ^0.18.1
+  material_design_icons_flutter: ^6.0.7096
+  provider: ^6.0.5
+  searchable_listview: ^2.4.0
 
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
+dev_dependencies: null
 
 flutter:
   uses-material-design: true

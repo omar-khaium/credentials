@@ -1,5 +1,5 @@
-import 'package:credentials/src/provider_keyboard.dart';
-import 'package:credentials/src/view/widgets/register/form_web.dart';
+import '../../provider_keyboard.dart';
+import '../widgets/register/form_web.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
