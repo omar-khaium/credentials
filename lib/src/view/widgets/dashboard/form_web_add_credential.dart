@@ -1,6 +1,6 @@
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/utils/services/api_service.dart';
-import 'package:credentials/src/utils/services/auth_service.dart';
+import '../../../model/credential.dart';
+import '../../../utils/services/api_service.dart';
+import '../../../utils/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 class WebAddCredentialForm extends StatefulWidget {
@@ -50,17 +50,29 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                 TextFormField(
                   controller: _urlController,
                   keyboardType: TextInputType.url,
-                  validator: (val) => val.isEmpty ? "required" : null,
+                  validator: (val) => val?.isEmpty ?? true ? "required" : null,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
                     fillColor: Colors.grey.shade50,
                     contentPadding: EdgeInsets.all(12),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
-                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
                     errorStyle: TextStyle(fontSize: 9, height: .5),
                   ),
                 ),
@@ -70,17 +82,29 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                 TextFormField(
                   controller: _usernameController,
                   keyboardType: TextInputType.emailAddress,
-                  validator: (val) => val.isEmpty ? "required" : null,
+                  validator: (val) => val?.isEmpty ?? true ? "required" : null,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
                     fillColor: Colors.grey.shade50,
                     contentPadding: EdgeInsets.all(12),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
-                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
                     errorStyle: TextStyle(fontSize: 9, height: .5),
                   ),
                 ),
@@ -90,17 +114,29 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                 TextFormField(
                   controller: _passwordController,
                   keyboardType: TextInputType.text,
-                  validator: (val) => val.isEmpty ? "required" : null,
+                  validator: (val) => val?.isEmpty ?? true ? "required" : null,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                   decoration: InputDecoration(
                     isDense: true,
                     filled: true,
                     fillColor: Colors.grey.shade50,
                     contentPadding: EdgeInsets.all(12),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
-                    focusedErrorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.red)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.red),
+                    ),
                     errorStyle: TextStyle(fontSize: 9, height: .5),
                     suffixIcon: IconButton(
                       padding: EdgeInsets.zero,
@@ -129,17 +165,25 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                     filled: true,
                     fillColor: Colors.grey.shade50,
                     contentPadding: EdgeInsets.all(12),
-                    enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
-                    focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(4), borderSide: BorderSide(width: .5, color: Colors.blue)),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(4),
+                      borderSide: BorderSide(width: .5, color: Colors.blue),
+                    ),
                   ),
                 ),
                 SizedBox(height: 4),
                 CheckboxListTile(
                   value: _isActive,
                   onChanged: (flag) {
-                    setState(() {
-                      _isActive = flag;
-                    });
+                    if (flag != null) {
+                      setState(() {
+                        _isActive = flag;
+                      });
+                    }
                   },
                   title: Text("Active"),
                   controlAffinity: ListTileControlAffinity.trailing,
@@ -155,17 +199,23 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                       _remarksController.text = "";
                       _isObscure = true;
                       _isActive = true;
-                      _formKey.currentState.reset();
+                      _formKey.currentState?.reset();
                     });
                   },
-                  style: TextButton.styleFrom(padding: EdgeInsets.all(20), side: BorderSide(color: Colors.black, width: 1)),
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.all(20),
+                    side: BorderSide(color: Colors.black, width: 1),
+                  ),
                   icon: Icon(Icons.refresh, color: Colors.black),
-                  label: Text("Reset", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.black)),
+                  label: Text(
+                    "Reset",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.black),
+                  ),
                 ),
                 SizedBox(height: 8),
                 ElevatedButton.icon(
                   onPressed: () async {
-                    if (_formKey.currentState.validate()) {
+                    if (_formKey.currentState?.validate() ?? false) {
                       final Credential _credential = Credential(
                         username: _usernameController.text,
                         password: _passwordController.text,
@@ -176,18 +226,29 @@ class _WebAddCredentialFormState extends State<WebAddCredentialForm> {
                         lastUpdatedAt: DateTime.now().subtract(DateTime.now().timeZoneOffset).millisecondsSinceEpoch,
                         isActive: _isActive,
                       );
-                      showDialog(context: context, builder: (context) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
+                      showDialog(
+                          context: context,
+                          builder: (context) => Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                          barrierDismissible: false);
                       bool status = await _apiService.addCredential(_credential);
                       Navigator.of(context).pop();
                       if (status) {
                         Navigator.of(context).pop();
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully added"), backgroundColor: Colors.green));
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(SnackBar(content: Text("Successfully added"), backgroundColor: Colors.green));
                       }
                     }
                   },
-                  style: ElevatedButton.styleFrom(padding: EdgeInsets.all(20)),
+                  style: ElevatedButton.styleFrom(
+                    padding: EdgeInsets.all(20),
+                  ),
                   icon: Icon(Icons.save_outlined),
-                  label: Text("Save", style: Theme.of(context).textTheme.subtitle1.copyWith(color: Colors.white)),
+                  label: Text(
+                    "Save",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
+                  ),
                 ),
               ],
             ),

@@ -1,7 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/utils/services/api_service.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/credential.dart';
+import '../../utils/services/api_service.dart';
 
 class ArchivedCredentialDetailsWidget extends StatelessWidget {
   final Credential credential;
@@ -49,36 +50,53 @@ class ArchivedCredentialDetailsWidget extends StatelessWidget {
           SizedBox(height: 8),
           ElevatedButton.icon(
             icon: Icon(Icons.restore, color: Colors.white, size: 16),
-            label: Text("Restore", style: TextStyle(color: Colors.white)),
-            style: ElevatedButton.styleFrom(primary: Colors.black),
+            label: Text(
+              "Restore",
+              style: TextStyle(color: Colors.white),
+            ),
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
             onPressed: () {
               showDialog(
                 context: context,
                 builder: (confirmationContext) => AlertDialog(
-                  title: Text("Confirmation", style: TextStyle(color: Colors.black, fontSize: 16)),
-                  content: Text("Are you sure?", style: TextStyle(color: Colors.black, fontSize: 14)),
+                  title: Text(
+                    "Confirmation",
+                    style: TextStyle(color: Colors.black, fontSize: 16),
+                  ),
+                  content: Text(
+                    "Are you sure?",
+                    style: TextStyle(color: Colors.black, fontSize: 14),
+                  ),
                   actions: [
                     TextButton(
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      style: TextButton.styleFrom(primary: Colors.black),
+                      style: TextButton.styleFrom(backgroundColor: Colors.black),
                       child: Text("Cancel"),
                     ),
                     ElevatedButton(
                       onPressed: () async {
                         Navigator.of(context).pop();
-                        showDialog(context: context, builder: (deleteContext) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-                        credential.isActive = true;
+                        showDialog(
+                            context: context,
+                            builder: (deleteContext) => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            barrierDismissible: false);
                         bool status = await _apiService.editCredential(credential);
                         Navigator.of(context).pop();
                         if (status) {
                           Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully restored"), backgroundColor: Colors.black));
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(SnackBar(content: Text("Successfully restored"), backgroundColor: Colors.black));
                         }
                       },
-                      style: ElevatedButton.styleFrom(primary: Colors.black),
-                      child: Text("Restore", style: TextStyle(color: Colors.white)),
+                      style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                      child: Text(
+                        "Restore",
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ),
                   ],
                 ),

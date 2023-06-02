@@ -1,12 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/utils/constants.dart';
-import 'package:credentials/src/utils/services/api_service.dart';
-import 'package:credentials/src/utils/services/auth_service.dart';
-import 'package:credentials/src/view/widgets/widget_add_credential.dart';
-import 'package:credentials/src/view/widgets/widget_archived_credential_details.dart';
 import 'package:flutter/material.dart';
+
+import '../../model/credential.dart';
+import '../../utils/constants.dart';
+import '../../utils/services/api_service.dart';
+import '../../utils/services/auth_service.dart';
+import '../widgets/widget_add_credential.dart';
+import '../widgets/widget_archived_credential_details.dart';
 
 class ArchiveRoute extends StatelessWidget {
   final String route = "/archive";
@@ -21,11 +22,15 @@ class ArchiveRoute extends StatelessWidget {
         title: Text("Archive"),
       ),
       body: StreamBuilder<QuerySnapshot>(
-        stream: _apiService.instance.collection(credentialCollection).where("createdBy", isEqualTo: _authService.currentUser.uid).where("isActive", isEqualTo: false).snapshots(),
+        stream: _apiService.instance
+            .collection(credentialCollection)
+            .where("createdBy", isEqualTo: _authService.currentUser.uid)
+            .where("isActive", isEqualTo: false)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) return Center(child: Icon(Icons.error));
           if (!snapshot.hasData) return Center(child: CircularProgressIndicator());
-          return snapshot.data.docs.isEmpty
+          return (snapshot.data?.docs ?? []).isEmpty
               ? Center(child: Icon(Icons.grid_off))
               : ListView.builder(
                   padding: EdgeInsets.all(0),
@@ -33,7 +38,7 @@ class ArchiveRoute extends StatelessWidget {
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
                   itemBuilder: (context, index) {
-                    final Credential credential = Credential.fromSnapshot(snapshot.data.docs[index]);
+                    final Credential credential = Credential.fromSnapshot(snapshot.data!.docs[index]);
                     return ListTile(
                       leading: CachedNetworkImage(
                         imageUrl: "https://www.google.com/s2/favicons?domain=${credential.url}",
@@ -51,7 +56,7 @@ class ArchiveRoute extends StatelessWidget {
                       },
                     );
                   },
-                  itemCount: snapshot.data.docs.length,
+                  itemCount: snapshot.data?.docs.length ?? 0,
                 );
         },
       ),

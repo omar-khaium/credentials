@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/utils/services/api_service.dart';
-import 'package:credentials/src/view/widgets/widget_edit_credential.dart';
+import '../../model/credential.dart';
+import '../../utils/services/api_service.dart';
+import 'widget_edit_credential.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
@@ -37,10 +37,14 @@ class CredentialDetailsWidget extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 16),
             horizontalTitleGap: 0,
             leading: Icon(Icons.person_outline_rounded, color: Colors.blue),
-            title: Text(credential.username, style: TextStyle(color: Colors.blue)),
+            title: Text(
+              credential.username,
+              style: TextStyle(color: Colors.blue),
+            ),
             onTap: () {
               Clipboard.setData(ClipboardData(text: credential.username));
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("username copied"), duration: Duration(seconds: 1)));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("username copied"), duration: Duration(seconds: 1)));
             },
           ),
           Divider(height: 1),
@@ -50,10 +54,14 @@ class CredentialDetailsWidget extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 16),
             horizontalTitleGap: 0,
             leading: Icon(Icons.lock_outline_rounded, color: Colors.blue),
-            title: Text("********", style: TextStyle(color: Colors.blue)),
+            title: Text(
+              "********",
+              style: TextStyle(color: Colors.blue),
+            ),
             onTap: () {
               Clipboard.setData(ClipboardData(text: credential.password));
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("password copied"), duration: Duration(seconds: 1)));
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(SnackBar(content: Text("password copied"), duration: Duration(seconds: 1)));
             },
           ),
           Divider(height: 1),
@@ -63,9 +71,15 @@ class CredentialDetailsWidget extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(horizontal: 16),
             horizontalTitleGap: 0,
             leading: Icon(Icons.event_note_outlined),
-            title: Text(DateFormat("h:mma d MMM, yy").format(DateTime.fromMillisecondsSinceEpoch(credential.lastUpdatedAt).add(DateTime.now().timeZoneOffset))),
+            title: Text(
+              DateFormat("h:mma d MMM, yy")
+                  .format(DateTime.fromMillisecondsSinceEpoch(credential.lastUpdatedAt).add(DateTime.now().timeZoneOffset)),
+            ),
           ),
-          Visibility(visible: credential.remarks.isNotEmpty, child: Divider(height: 1)),
+          Visibility(
+            visible: credential.remarks.isNotEmpty,
+            child: Divider(height: 1),
+          ),
           Visibility(
             visible: credential.remarks.isNotEmpty,
             child: ListTile(
@@ -87,7 +101,10 @@ class CredentialDetailsWidget extends StatelessWidget {
               children: [
                 ActionChip(
                   avatar: Icon(Icons.edit_outlined, color: Colors.white, size: 16),
-                  label: Text("Edit", style: TextStyle(color: Colors.white)),
+                  label: Text(
+                    "Edit",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   backgroundColor: Colors.blue,
                   onPressed: () {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -98,36 +115,53 @@ class CredentialDetailsWidget extends StatelessWidget {
                 SizedBox(width: 16),
                 ActionChip(
                   avatar: Icon(Icons.archive_outlined, color: Colors.white, size: 16),
-                  label: Text("Archive", style: TextStyle(color: Colors.white)),
+                  label: Text(
+                    "Archive",
+                    style: TextStyle(color: Colors.white),
+                  ),
                   backgroundColor: Colors.black,
                   onPressed: () {
                     showDialog(
                       context: context,
                       builder: (confirmationContext) => AlertDialog(
-                        title: Text("Confirmation", style: TextStyle(color: Colors.black, fontSize: 16)),
-                        content: Text("Are you sure?", style: TextStyle(color: Colors.black, fontSize: 14)),
+                        title: Text(
+                          "Confirmation",
+                          style: TextStyle(color: Colors.black, fontSize: 16),
+                        ),
+                        content: Text(
+                          "Are you sure?",
+                          style: TextStyle(color: Colors.black, fontSize: 14),
+                        ),
                         actions: [
                           TextButton(
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            style: TextButton.styleFrom(primary: Colors.black),
+                            style: TextButton.styleFrom(backgroundColor: Colors.black),
                             child: Text("Cancel"),
                           ),
                           ElevatedButton(
                             onPressed: () async {
                               Navigator.of(context).pop();
-                              showDialog(context: context, builder: (deleteContext) => Center(child: CircularProgressIndicator()), barrierDismissible: false);
-                              credential.isActive = false;
+                              showDialog(
+                                  context: context,
+                                  builder: (deleteContext) => Center(
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                  barrierDismissible: false);
                               bool status = await _apiService.editCredential(credential);
                               Navigator.of(context).pop();
                               if (status) {
                                 Navigator.of(context).pop();
-                                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Successfully archived"), backgroundColor: Colors.black));
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Successfully archived"), backgroundColor: Colors.black));
                               }
                             },
-                            style: ElevatedButton.styleFrom(primary: Colors.black),
-                            child: Text("Archive", style: TextStyle(color: Colors.white)),
+                            style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                            child: Text(
+                              "Archive",
+                              style: TextStyle(color: Colors.white),
+                            ),
                           ),
                         ],
                       ),

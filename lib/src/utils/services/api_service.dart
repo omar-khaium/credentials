@@ -1,15 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/utils/constants.dart';
+import '../../model/credential.dart';
+import '../constants.dart';
 
 class ApiService {
   FirebaseFirestore instance = FirebaseFirestore.instance;
-  List<DocumentSnapshot> list;
 
   Future<bool> addCredential(Credential credential) async {
     try {
-      final DocumentReference reference = await instance.collection(credentialCollection).add(credential.toCreateMap);
-      return reference != null;
+      await instance.collection(credentialCollection).add(credential.toCreateMap);
+      return true;
     } catch (error) {
       print(error);
       return false;

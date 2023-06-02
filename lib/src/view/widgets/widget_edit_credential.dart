@@ -1,5 +1,5 @@
-import 'package:credentials/src/model/credential.dart';
-import 'package:credentials/src/view/widgets/dashboard/form_web_edit_credential.dart';
+import '../../model/credential.dart';
+import 'dashboard/form_web_edit_credential.dart';
 import 'package:flutter/material.dart';
 
 class EditCredentialWidget extends StatefulWidget {

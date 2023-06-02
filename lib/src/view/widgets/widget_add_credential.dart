@@ -1,4 +1,4 @@
-import 'package:credentials/src/view/widgets/dashboard/form_web_add_credential.dart';
+import 'dashboard/form_web_add_credential.dart';
 import 'package:flutter/material.dart';
 
 class AddCredentialWidget extends StatefulWidget {
