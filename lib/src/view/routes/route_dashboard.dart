@@ -98,7 +98,7 @@ class DashboardRoute extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: SearchableList<Credential>(
               initialList: list,
-              builder: (Credential credential) => ListTile(
+              builder: (_, __, Credential credential) => ListTile(
                 contentPadding: EdgeInsets.zero,
                 leading: Tooltip(
                   message: 'Logo',
@@ -149,7 +149,6 @@ class DashboardRoute extends StatelessWidget {
               spaceBetweenSearchAndList: 16,
               emptyWidget: Center(child: Icon(Icons.grid_off)),
               displayClearIcon: false,
-              autoFocusOnSearch: false,
               inputDecoration: InputDecoration(
                 labelText: "Search",
                 filled: true,

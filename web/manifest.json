@@ -1,11 +1,11 @@
 {
-    "name": "credentials",
-    "short_name": "credentials",
+    "name": "Credentials",
+    "short_name": "Credentials",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "A credential manager companion app. This is a pet-project, meant for personal usage. The passwords are saved as encrypted on both incoming and outgoing requests.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
