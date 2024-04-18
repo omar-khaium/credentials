@@ -5,23 +5,13 @@ import 'src/view/routes/route_auth.dart';
 import 'src/view/routes/route_dashboard.dart';
 import 'src/view/routes/route_register.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (kIsWeb) {
-    await FacebookAuth.i.webAndDesktopInitialize(
-      appId: "190883392903715",
-      cookie: true,
-      xfbml: true,
-      version: "v10.0",
-    );
-  }
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 

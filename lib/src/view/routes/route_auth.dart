@@ -147,29 +147,6 @@ class _AuthRouteState extends State<AuthRoute> {
                                     child: CircularProgressIndicator(),
                                   ),
                               barrierDismissible: false);
-                          bool status = await _authService.signInWithFacebook();
-                          Navigator.of(context).pop();
-                          if (status) {
-                            Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-                          }
-                        },
-                        child: Text("Sign in with Facebook"),
-                      ),
-                    ),
-                    Visibility(
-                      visible: keyboardProvider.hidden,
-                      child: SizedBox(height: 16),
-                    ),
-                    Visibility(
-                      visible: keyboardProvider.hidden,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          showDialog(
-                              context: context,
-                              builder: (context) => Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                              barrierDismissible: false);
                           bool status = await _authService.signInAnonymously();
                           Navigator.of(context).pop();
                           if (status) {

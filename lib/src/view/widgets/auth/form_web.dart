@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import '../../../utils/services/auth_service.dart';
 import '../../routes/route_dashboard.dart';
@@ -56,34 +55,6 @@ class _WebAuthFormState extends State<WebAuthForm> {
                     ),
                     SizedBox(height: 16),
                     Divider(),
-                    SizedBox(height: 8),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 16),
-                      child: ElevatedButton.icon(
-                        onPressed: () async {
-                          showDialog(
-                              context: context,
-                              builder: (context) => Center(
-                                    child: CircularProgressIndicator(),
-                                  ),
-                              barrierDismissible: false);
-                          bool status = await _authService.signInWithFacebook();
-                          Navigator.of(context).pop();
-                          if (status) {
-                            Navigator.of(context).pushReplacementNamed(DashboardRoute().route);
-                          }
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue.shade800,
-                          padding: EdgeInsets.all(16),
-                        ),
-                        icon: Icon(MdiIcons.facebook, color: Colors.white),
-                        label: Text(
-                          "Sign in with Facebook",
-                          style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.white),
-                        ),
-                      ),
-                    ),
                     SizedBox(height: 8),
                     Container(
                       margin: EdgeInsets.symmetric(horizontal: 16),

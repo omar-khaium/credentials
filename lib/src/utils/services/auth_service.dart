@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class AuthService {
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -8,20 +7,6 @@ class AuthService {
   Future<bool> signInAnonymously() async {
     try {
       final UserCredential credential = await auth.signInAnonymously();
-      return credential.user != null;
-    } catch (error) {
-      print(error);
-      return false;
-    }
-  }
-
-  Future<bool> signInWithFacebook() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-
-      final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken?.token ?? "");
-
-      final UserCredential credential = await auth.signInWithCredential(facebookAuthCredential);
       return credential.user != null;
     } catch (error) {
       print(error);
@@ -46,7 +31,7 @@ class AuthService {
           context: context,
           builder: (context) => AlertDialog(
                 title: Text(
-                  "Opps",
+                  "Oops",
                   style: Theme.of(context).textTheme.titleSmall!.copyWith(color: Colors.red),
                 ),
                 content: Text(
@@ -75,7 +60,7 @@ class AuthService {
           context: context,
           builder: (context) => AlertDialog(
                 title: Text(
-                  "Opps",
+                  "Oops",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(color: Colors.red),
                 ),
                 content: Text(
