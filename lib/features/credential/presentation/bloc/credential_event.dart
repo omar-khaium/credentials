@@ -8,3 +8,14 @@ abstract class CredentialEvent extends Equatable {
 }
 
 class FetchCredentials extends CredentialEvent {}
+
+class SearchCredentials extends CredentialEvent {
+  final String query;
+
+  SearchCredentials({
+    required this.query,
+  });
+
+  @override
+  List<Object> get props => [query];
+}

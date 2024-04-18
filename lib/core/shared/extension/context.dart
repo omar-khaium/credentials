@@ -26,6 +26,7 @@ extension BuildContextExtension on BuildContext {
   double get bottomInset => MediaQuery.of(this).padding.bottom;
   
   double get smallestSide => MediaQuery.of(this).size.shortestSide;
+  double get width => MediaQuery.of(this).size.width;
 
   ScaffoldMessengerState successNotification({
     required String message,

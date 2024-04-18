@@ -28,5 +28,18 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
         emit(CredentialError(failure: e));
       }
     });
+    on<SearchCredentials>((event, emit) async {
+      if (state is CredentialDone) {
+        final CredentialDone currentState = state as CredentialDone;
+        final List<CredentialEntity> credentials = currentState.credentials;
+        final List<CredentialEntity> popular = currentState.popular;
+        final List<CredentialEntity> filtered =
+            credentials.where((e) => e.url.toLowerCase().contains(event.query.toLowerCase())).toList();
+        emit(CredentialDone(
+          credentials: filtered,
+          popular: popular,
+        ));
+      }
+    });
   }
 }

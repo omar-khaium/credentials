@@ -59,6 +59,38 @@ class _DashboardPageState extends State<DashboardPage> {
             ),
             title: Text("Dashboard"),
             actions: [
+              SizedBox(
+                width: context.width * 0.3,
+                child: TextField(
+                  onChanged: (value) {
+                    if (value.isEmpty)
+                      context.credentialBloc.add(FetchCredentials());
+                    else
+                      context.credentialBloc.add(SearchCredentials(query: value));
+                  },
+                  decoration: InputDecoration(
+                    hintText: "Search",
+                    hintStyle: TextStyles.caption(context: context, color: theme.hint),
+                    prefixIcon: Icon(Icons.search_rounded, color: theme.hint),
+                    filled: true,
+                    fillColor: theme.accent.shade50,
+                    contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: BorderSide.none,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(100),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 8),
               Tooltip(
                 message: 'Archives',
                 child: IconButton(
@@ -103,96 +135,204 @@ class _DashboardPageState extends State<DashboardPage> {
               if (state is CredentialLoading) {
                 return Center(child: CircularProgressIndicator());
               } else if (state is CredentialDone) {
-                return MasonryGridView.count(
+                return ListView(
                   shrinkWrap: true,
-                  scrollDirection: Axis.vertical,
-                  crossAxisCount: 4,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                  padding: EdgeInsets.all(24),
-                  clipBehavior: Clip.none,
-                  itemCount: state.credentials.length,
-                  itemBuilder: (_, index) {
-                    final credential = state.credentials[index];
-                    return Container(
-                      clipBehavior: Clip.antiAlias,
-                      decoration: BoxDecoration(
-                        color: theme.background,
-                        borderRadius: BorderRadius.circular(16),
-                        border: Border.all(
-                          width: 3,
-                          color: theme.accent.shade50,
-                          strokeAlign: BorderSide.strokeAlignOutside,
-                        ),
-                      ),
-                      child: Column(
+                  children: [
+                    if (state.popular.isNotEmpty) ...[
+                      const SizedBox(height: 24),
+                      Row(
                         mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          PhysicalModel(
-                            color: theme.accent.shade50,
-                            child: AspectRatio(
-                              aspectRatio: 3,
-                              child: Stack(
-                                children: [
-                                  Positioned.fill(
+                          const SizedBox(width: 24),
+                          Icon(
+                            Icons.star_rounded,
+                            color: theme.warning,
+                            weight: 700,
+                            grade: 200,
+                          ),
+                          const SizedBox(width: 16),
+                          Text(
+                            "Most Popular Credentials",
+                            style: TextStyles.body(
+                              context: context,
+                              color: theme.warning,
+                            ).copyWith(fontWeight: FontWeight.bold),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                      MasonryGridView.count(
+                        shrinkWrap: true,
+                        scrollDirection: Axis.vertical,
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                        padding: EdgeInsets.all(24),
+                        clipBehavior: Clip.none,
+                        itemCount: state.popular.length,
+                        physics: NeverScrollableScrollPhysics(),
+                        itemBuilder: (_, index) {
+                          final credential = state.credentials[index];
+                          return Container(
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              color: theme.background,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                width: 3,
+                                color: theme.accent.shade50,
+                                strokeAlign: BorderSide.strokeAlignOutside,
+                              ),
+                            ),
+                            child: Row(
+                              children: [
+                                PhysicalModel(
+                                  color: theme.accent.shade50,
+                                  child: SizedBox(
+                                    width: 54,
+                                    height: 54,
                                     child: credential.logo != null
                                         ? Image.network(
                                             credential.logo!,
                                             fit: BoxFit.cover,
                                           )
-                                        : Icon(Icons.lock_outline_rounded, size: 48),
+                                        : Icon(Icons.lock_outline_rounded, size: 24),
                                   ),
-                                  if (credential.hitCount != null && credential.hitCount! > 10)
-                                    Positioned(
-                                      right: 0,
-                                      top: 0,
-                                      child: Icon(
-                                        Icons.trending_up_rounded,
-                                        color: theme.warning,
-                                        weight: 700,
-                                        grade: 200,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(height: 8),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 16),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              credential.url,
+                                              style: TextStyles.subTitle(context: context, color: theme.link),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                            Text(
+                                              credential.username,
+                                              style: TextStyles.caption(context: context, color: theme.text),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 16),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  credential.url,
-                                  style: TextStyles.title(context: context, color: theme.link),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 4),
-                                Text(
-                                  credential.username,
-                                  style: TextStyles.subTitle(context: context, color: theme.text),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
-                                  style: TextStyles.caption(context: context, color: theme.hint),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                      const SizedBox(height: 8),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                        ],
+                          );
+                        },
                       ),
-                    );
-                  },
+                      const SizedBox(height: 12),
+                      Divider(),
+                      const SizedBox(height: 12),
+                    ],
+                    MasonryGridView.count(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.vertical,
+                      crossAxisCount: 4,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      padding: EdgeInsets.all(24),
+                      clipBehavior: Clip.none,
+                      itemCount: state.credentials.length,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (_, index) {
+                        final credential = state.credentials[index];
+                        return Container(
+                          clipBehavior: Clip.antiAlias,
+                          decoration: BoxDecoration(
+                            color: theme.background,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              width: 3,
+                              color: theme.accent.shade50,
+                              strokeAlign: BorderSide.strokeAlignOutside,
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              PhysicalModel(
+                                color: theme.accent.shade50,
+                                child: AspectRatio(
+                                  aspectRatio: 3,
+                                  child: Stack(
+                                    children: [
+                                      Positioned.fill(
+                                        child: credential.logo != null
+                                            ? Image.network(
+                                                credential.logo!,
+                                                fit: BoxFit.cover,
+                                              )
+                                            : Icon(Icons.lock_outline_rounded, size: 48),
+                                      ),
+                                      if (credential.hitCount != null && credential.hitCount! > 10)
+                                        Positioned(
+                                          right: 0,
+                                          top: 0,
+                                          child: Icon(
+                                            Icons.star_rounded,
+                                            color: theme.warning,
+                                            weight: 700,
+                                            grade: 200,
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 16),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      credential.url,
+                                      style: TextStyles.title(context: context, color: theme.link),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      credential.username,
+                                      style: TextStyles.subTitle(context: context, color: theme.text),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(
+                                      "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
+                                      style: TextStyles.caption(context: context, color: theme.hint),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 12),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 );
               } else if (state is CredentialError) {
                 return Center(child: Text(state.failure.message));
