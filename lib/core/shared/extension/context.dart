@@ -2,6 +2,7 @@ import 'package:credentials/core/shared/extension/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../features/credential/presentation/bloc/credential_bloc.dart';
 import '../shared.dart';
 import '../theme/theme_bloc.dart';
 
@@ -21,7 +22,10 @@ extension BuildContextExtension on BuildContext {
   Color get backgroundColor => Colors.white;
 
   double get topInset => MediaQuery.of(this).padding.top;
+
   double get bottomInset => MediaQuery.of(this).padding.bottom;
+  
+  double get smallestSide => MediaQuery.of(this).size.shortestSide;
 
   ScaffoldMessengerState successNotification({
     required String message,
@@ -72,6 +76,8 @@ extension BuildContextExtension on BuildContext {
   }
 
   ThemeBloc get themeBloc => read<ThemeBloc>();
+  
+  CredentialBloc get credentialBloc => read<CredentialBloc>();
 
   bool get isMobile {
     final size = MediaQuery.of(this).size;

@@ -3,6 +3,7 @@ library config;
 import 'dart:async';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:credentials/core/shared/theme/scheme.dart';
 import 'package:credentials/core/shared/theme/theme_bloc.dart';
 import 'package:credentials/features/authentication/presentation/bloc/authentication_bloc.dart';
@@ -11,7 +12,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:http/http.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,6 +19,12 @@ import 'package:path_provider/path_provider.dart';
 import '../../features/authentication/data/repositories/repo_impl.dart';
 import '../../features/authentication/domain/repositories/repo.dart';
 import '../../features/authentication/domain/usecases/sign_in_with_email_and_password.dart';
+import '../../features/credential/data/datasources/remote.dart';
+import '../../features/credential/data/datasources/remote_impl.dart';
+import '../../features/credential/data/repositories/repo_impl.dart';
+import '../../features/credential/domain/repositories/repo.dart';
+import '../../features/credential/domain/usecases/fetch.dart';
+import '../../features/credential/presentation/bloc/credential_bloc.dart';
 import '../../firebase_options.dart';
 import '../shared/shared.dart';
 
@@ -38,9 +44,12 @@ class AppConfig {
 
     await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-    usePathUrlStrategy();
     // Initialize the configurations
     await _setupDependencies();
+
+    await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
+
+    await FirebaseAuth.instance.authStateChanges().first;
   }
 
   static ThemeData theme({
@@ -67,36 +76,40 @@ class AppConfig {
           contentPadding: const EdgeInsets.all(16.0),
           hintStyle: TextStyles.body(context: context, color: theme.hint),
           errorStyle: TextStyles.caption(context: context, color: theme.error).copyWith(height: 0, fontSize: 0),
-          border:
-              const OutlineInputBorder(borderRadius: BorderRadius.zero, borderSide: BorderSide(color: Colors.black, width: .5)),
-          focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: BorderSide(color: Colors.black, width: .5),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: Colors.black, width: 4),
           ),
-          enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: Colors.black, width: 2),
           ),
-          disabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+          disabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: Colors.grey, width: 1),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: theme.error, width: 1),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.zero,
+            borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: theme.error, width: 3),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: Colors.black,
-            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             elevation: 1,
             shadowColor: theme.shadow,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: const EdgeInsets.all(16),
           ),
         ),
         textButtonTheme: TextButtonThemeData(

@@ -7,6 +7,8 @@ class CredentialEntity {
   final DateTime createdAt;
   final String createdBy;
   final DateTime lastUpdatedAt;
+  final String? logo;
+  final int? hitCount;
   final bool isActive;
 
   CredentialEntity({
@@ -19,5 +21,7 @@ class CredentialEntity {
     required this.createdBy,
     required this.lastUpdatedAt,
     required this.isActive,
+    required this.hitCount,
+    required this.logo,
   });
 }

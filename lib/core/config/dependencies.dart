@@ -6,6 +6,7 @@ Future<void> _setupDependencies() async {
   await Future.wait([
     _core,
     _authentication,
+    _credentials,
   ]);
 }
 
@@ -16,6 +17,7 @@ Future<void> get _core async {
 
   sl.registerLazySingleton(() => Client());
   sl.registerLazySingleton(() => FirebaseAuth.instance);
+  sl.registerLazySingleton(() => FirebaseFirestore.instance);
 }
 
 Future<void> get _authentication async {
@@ -34,6 +36,33 @@ Future<void> get _authentication async {
   sl.registerLazySingleton<AuthenticationRepository>(
     () => AuthenticationRepositoryImpl(
       auth: sl(),
+    ),
+  );
+}
+
+Future<void> get _credentials async {
+  sl.registerFactory(
+    () => CredentialBloc(
+      usecase: sl(),
+    ),
+  );
+
+  sl.registerFactory(
+    () => FetchCredentialsUsecase(
+      repository: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<CredentialRepository>(
+    () => CredentialRepositoryImpl(
+      auth: sl(),
+      remote: sl(),
+    ),
+  );
+
+  sl.registerLazySingleton<CredentialRemoteDataSource>(
+    () => CredentialRemoteDataSourceImpl(
+      firestore: sl(),
     ),
   );
 }

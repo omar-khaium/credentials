@@ -1,7 +1,7 @@
 import 'package:credentials/core/config/config.dart';
 import 'package:credentials/features/authentication/presentation/bloc/authentication_bloc.dart';
 import 'package:credentials/features/authentication/presentation/pages/authentication.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:credentials/features/credential/presentation/bloc/credential_bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
@@ -22,12 +22,9 @@ final router = GoRouter(
       path: DashboardPage.path,
       name: DashboardPage.tag,
       builder: (context, state) => BlocProvider(
-        create: (_) => sl<AuthenticationBloc>(),
+        create: (_) => sl<CredentialBloc>(),
         child: const DashboardPage(),
       ),
-      redirect: (context, state) {
-        return sl<FirebaseAuth>().currentUser == null ? AuthenticationPage.path : null;
-      },
     ),
   ],
 );
