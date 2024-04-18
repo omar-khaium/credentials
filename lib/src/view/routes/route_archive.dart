@@ -1,8 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:credentials/src/model/credential.dart';
 import 'package:flutter/material.dart';
 
-import '../../model/credential.dart';
 import '../../utils/constants.dart';
 import '../../utils/services/api_service.dart';
 import '../../utils/services/auth_service.dart';
