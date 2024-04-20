@@ -3,6 +3,7 @@ import 'package:credentials/core/shared/extension/theme.dart';
 import 'package:credentials/core/shared/shared.dart';
 import 'package:credentials/features/authentication/presentation/pages/authentication.dart';
 import 'package:credentials/features/credential/presentation/bloc/credential_bloc.dart';
+import 'package:credentials/features/credential/presentation/widgets/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
 
     sl<FirebaseAuth>().authStateChanges().listen((user) {
-      if (user == null) {
+      if (user == null && mounted) {
         context.goNamed(AuthenticationPage.tag);
       }
     });
@@ -47,17 +48,16 @@ class _DashboardPageState extends State<DashboardPage> {
           appBar: AppBar(
             backgroundColor: theme.background,
             automaticallyImplyLeading: true,
-            leading: Tooltip(
-              message: 'Profile',
-              child: IconButton(
-                icon: CircleAvatar(
-                  child: Icon(Icons.person_outline_rounded, color: Colors.white),
-                  backgroundColor: Colors.blue.shade600,
-                ),
-                onPressed: () {},
-              ),
+            scrolledUnderElevation: 1,
+            shadowColor: theme.shadow,
+            leading: Container(
+              margin: EdgeInsets.only(left: 16, right: 8),
+              child: Image.asset("assets/icon.png"),
             ),
-            title: Text("Dashboard"),
+            title: Text(
+              "Dashboard",
+              style: TextStyles.headline(context: context, color: theme.text),
+            ),
             actions: [
               SizedBox(
                 width: context.width * 0.3,
@@ -197,7 +197,12 @@ class _DashboardPageState extends State<DashboardPage> {
                                             credential.logo!,
                                             fit: BoxFit.cover,
                                           )
-                                        : Icon(Icons.lock_outline_rounded, size: 24),
+                                        : Image.asset(
+                                            "assets/icon.png",
+                                            fit: BoxFit.cover,
+                                            width: 24,
+                                            height: 24,
+                                          ),
                                   ),
                                 ),
                                 Expanded(
@@ -263,71 +268,91 @@ class _DashboardPageState extends State<DashboardPage> {
                               strokeAlign: BorderSide.strokeAlignOutside,
                             ),
                           ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              PhysicalModel(
-                                color: theme.accent.shade50,
-                                child: AspectRatio(
-                                  aspectRatio: 3,
-                                  child: Stack(
-                                    children: [
-                                      Positioned.fill(
-                                        child: credential.logo != null
-                                            ? Image.network(
-                                                credential.logo!,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Icon(Icons.lock_outline_rounded, size: 48),
-                                      ),
-                                      if (credential.hitCount != null && credential.hitCount! > 10)
-                                        Positioned(
-                                          right: 0,
-                                          top: 0,
-                                          child: Icon(
-                                            Icons.star_rounded,
-                                            color: theme.warning,
-                                            weight: 700,
-                                            grade: 200,
-                                          ),
+                          child: InkWell(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  backgroundColor: theme.background,
+                                  surfaceTintColor: theme.background,
+                                  contentPadding: EdgeInsets.zero,
+                                  content: ViewCredentialWidget(credential: credential),
+                                ),
+                              );
+                            },
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PhysicalModel(
+                                  color: theme.accent.shade50,
+                                  child: AspectRatio(
+                                    aspectRatio: 3,
+                                    child: Stack(
+                                      children: [
+                                        Positioned.fill(
+                                          child: credential.logo != null
+                                              ? Image.network(
+                                                  credential.logo!,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Center(
+                                                  child: Image.asset(
+                                                    "assets/icon.png",
+                                                    fit: BoxFit.cover,
+                                                    width: 48,
+                                                    height: 48,
+                                                  ),
+                                                ),
                                         ),
+                                        if (credential.hitCount != null && credential.hitCount! > 10)
+                                          Positioned(
+                                            right: 0,
+                                            top: 0,
+                                            child: Icon(
+                                              Icons.star_rounded,
+                                              color: theme.warning,
+                                              weight: 700,
+                                              grade: 200,
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 12),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 16),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        credential.url,
+                                        style: TextStyles.title(context: context, color: theme.link),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        credential.username,
+                                        style: TextStyles.subTitle(context: context, color: theme.text),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                      const SizedBox(height: 8),
+                                      Text(
+                                        "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
+                                        style: TextStyles.caption(context: context, color: theme.hint),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ],
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 12),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 16),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      credential.url,
-                                      style: TextStyles.title(context: context, color: theme.link),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 4),
-                                    Text(
-                                      credential.username,
-                                      style: TextStyles.subTitle(context: context, color: theme.text),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
-                                      style: TextStyles.caption(context: context, color: theme.hint),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(height: 12),
-                            ],
+                                const SizedBox(height: 12),
+                              ],
+                            ),
                           ),
                         );
                       },

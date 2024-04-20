@@ -45,6 +45,17 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
       builder: (_, state) {
         final theme = state.scheme;
 
+        final VoidCallback onSubmit = () {
+          if (formKey.currentState?.validate() ?? false) {
+            context.read<AuthenticationBloc>().add(
+                  Authenticate(
+                    email: emailController.text,
+                    password: passwordController.text,
+                  ),
+                );
+          }
+        };
+
         final usernameField = TextFormField(
           controller: emailController,
           keyboardType: TextInputType.emailAddress,
@@ -52,6 +63,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           autovalidateMode: AutovalidateMode.onUserInteraction,
           validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
           decoration: const InputDecoration(hintText: "email"),
+          onFieldSubmitted: (value) {
+            onSubmit();
+          },
         );
 
         final passwordField = TextFormField(
@@ -62,6 +76,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
           decoration: const InputDecoration(hintText: "password"),
           obscureText: true,
+          onFieldSubmitted: (value) {
+            onSubmit();
+          },
         );
 
         final submitButton = SizedBox(
@@ -117,16 +134,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                       bottom: context.bottomInset + 16,
                     ),
                   ),
-                  onPressed: () {
-                    if (formKey.currentState?.validate() ?? false) {
-                      context.read<AuthenticationBloc>().add(
-                            Authenticate(
-                              email: emailController.text,
-                              password: passwordController.text,
-                            ),
-                          );
-                    }
-                  },
+                  onPressed: onSubmit,
                   child: Text(
                     "Login".toUpperCase(),
                     style: TextStyles.miniHeadline(context: context, color: Colors.white).copyWith(
@@ -197,12 +205,11 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                               color: theme.accent.shade50,
                             ),
                             child: Center(
-                              child: Icon(
-                                Icons.lock_rounded,
-                                size: context.smallestSide / 4,
-                                color: theme.accent,
-                                weight: 700,
-                                grade: 200,
+                              child: Image.asset(
+                                "assets/icon.png",
+                                width: context.smallestSide / 2,
+                                height: context.smallestSide / 2,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),

@@ -24,7 +24,7 @@ extension BuildContextExtension on BuildContext {
   double get topInset => MediaQuery.of(this).padding.top;
 
   double get bottomInset => MediaQuery.of(this).padding.bottom;
-  
+
   double get smallestSide => MediaQuery.of(this).size.shortestSide;
   double get width => MediaQuery.of(this).size.width;
 
@@ -35,7 +35,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: theme.text),
+        style: TextStyles.body(context: this, color: theme.background),
       ),
       backgroundColor: theme.success,
     );
@@ -51,7 +51,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: theme.text),
+        style: TextStyles.body(context: this, color: theme.background),
       ),
       backgroundColor: theme.error,
     );
@@ -67,7 +67,7 @@ extension BuildContextExtension on BuildContext {
     final snackBar = SnackBar(
       content: Text(
         message,
-        style: TextStyles.body(context: this, color: theme.text),
+        style: TextStyles.body(context: this, color: theme.background),
       ),
       backgroundColor: theme.warning,
     );
@@ -77,7 +77,7 @@ extension BuildContextExtension on BuildContext {
   }
 
   ThemeBloc get themeBloc => read<ThemeBloc>();
-  
+
   CredentialBloc get credentialBloc => read<CredentialBloc>();
 
   bool get isMobile {

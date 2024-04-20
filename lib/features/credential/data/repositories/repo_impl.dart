@@ -15,7 +15,7 @@ class CredentialRepositoryImpl extends CredentialRepository {
 
   @override
   Stream<List<CredentialEntity>> fetch() {
-    final String userId = auth.currentUser!.uid;
+    final String userId = auth.currentUser?.uid ?? "";
     return remote.fetch(userId: userId);
   }
 }

@@ -36,10 +36,10 @@ class ThemeScheme {
     required ThemeType type,
   }) {
     final theme = ThemeScheme(
-      accent: type == ThemeType.light ? Colors.indigo : Colors.indigo,
+      accent: type == ThemeType.light ? Colors.teal : Colors.teal,
       background: type == ThemeType.light ? Colors.white : Colors.black,
       text: type == ThemeType.light ? Colors.black : Colors.white,
-      link: type == ThemeType.light ? Colors.blue : Colors.blue,
+      link: type == ThemeType.light ? Colors.teal.shade700 : Colors.blue,
       button: type == ThemeType.light ? Colors.blue : Colors.blue,
       card: type == ThemeType.light ? Colors.grey.shade100 : Colors.grey[800]!,
       shadow: type == ThemeType.light ? Colors.grey.shade200 : Colors.grey[800]!,

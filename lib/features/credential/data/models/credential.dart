@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:credentials/features/credential/domain/entities/credential.dart';
 
+import '../../../../src/utils/encrypter.dart';
+
 class CredentialModel extends CredentialEntity {
   CredentialModel({
     required super.id,
@@ -17,13 +19,13 @@ class CredentialModel extends CredentialEntity {
   });
 
   factory CredentialModel.parse({
-    required QueryDocumentSnapshot<Map<String, dynamic>> doc,
+    required QueryDocumentSnapshot doc,
   }) {
-    final Map<String, dynamic> map = Map<String, dynamic>.from(doc.data());
+    final Map<String, dynamic> map = Map<String, dynamic>.from(doc.data() as Map<String, dynamic>);
     return CredentialModel(
       id: doc.id,
       username: map['username'],
-      password: map['password'],
+      password: Encrypted.from(doc.get("password")),
       url: map['url'],
       remarks: map['remarks'],
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']).add(DateTime.now().timeZoneOffset),
