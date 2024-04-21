@@ -1,5 +1,5 @@
 import '../../../features/credential/domain/entities/credential.dart';
-import '../../../src/utils/encrypter.dart';
+import '../encrypter.dart';
 
 extension CredentialExtension on CredentialEntity {
   CredentialEntity copyWith({

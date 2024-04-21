@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import '../utils/encrypter.dart';
+import '../../core/shared/encrypter.dart';
 
 class Credential {
   final String id;
