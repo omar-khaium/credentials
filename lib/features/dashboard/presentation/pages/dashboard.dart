@@ -19,8 +19,8 @@ import '../../../../src/view/routes/route_archive.dart';
 
 part '../widgets/all.dart';
 part '../widgets/all_item.dart';
-part '../widgets/populer.dart';
-part '../widgets/populer_item.dart';
+part '../widgets/popular.dart';
+part '../widgets/popular_item.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String path = "/";
