@@ -23,6 +23,7 @@ class _AllItem extends StatelessWidget {
             ),
           ),
           child: InkWell(
+            borderRadius: BorderRadius.circular(16),
             onTap: () {
               showDialog(
                 context: context,

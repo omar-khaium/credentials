@@ -12,6 +12,7 @@ class _PopularItem extends StatelessWidget {
       builder: (_, state) {
         final theme = state.scheme;
         return InkWell(
+          borderRadius: BorderRadius.circular(16),
           onTap: () {
             showDialog(
               context: context,

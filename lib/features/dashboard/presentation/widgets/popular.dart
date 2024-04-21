@@ -52,7 +52,7 @@ class _Popular extends StatelessWidget {
                     itemCount: state.popular.length,
                     physics: NeverScrollableScrollPhysics(),
                     itemBuilder: (_, index) {
-                      final credential = state.credentials[index];
+                      final credential = state.popular[index];
                       return _PopularItem(credential: credential);
                     },
                   ),
