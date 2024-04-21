@@ -1,5 +1,7 @@
+import 'package:credentials/core/shared/error/failure/failure.dart';
 import 'package:credentials/features/credential/data/datasources/remote.dart';
 import 'package:credentials/features/credential/domain/repositories/repo.dart';
+import 'package:either_dart/src/either.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../domain/entities/credential.dart';
@@ -17,5 +19,17 @@ class CredentialRepositoryImpl extends CredentialRepository {
   Stream<List<CredentialEntity>> fetch() {
     final String userId = auth.currentUser?.uid ?? "";
     return remote.fetch(userId: userId);
+  }
+
+  @override
+  Future<Either<Failure, void>> hit({
+    required CredentialEntity credential,
+  }) async {
+    try {
+      await remote.hit(credential: credential);
+      return Right(null);
+    } on Failure catch (e) {
+      return Left(e);
+    }
   }
 }

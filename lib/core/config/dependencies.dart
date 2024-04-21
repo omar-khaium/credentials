@@ -46,9 +46,19 @@ Future<void> get _credentials async {
       usecase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => HitCredentialBloc(
+      usecase: sl(),
+    ),
+  );
 
   sl.registerFactory(
     () => FetchCredentialsUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => CredentialHitUsecase(
       repository: sl(),
     ),
   );

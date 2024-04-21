@@ -21,19 +21,23 @@ class CredentialModel extends CredentialEntity {
   factory CredentialModel.parse({
     required QueryDocumentSnapshot doc,
   }) {
-    final Map<String, dynamic> map = Map<String, dynamic>.from(doc.data() as Map<String, dynamic>);
-    return CredentialModel(
-      id: doc.id,
-      username: map['username'],
-      password: Encrypted.from(doc.get("password")),
-      url: map['url'],
-      remarks: map['remarks'],
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']).add(DateTime.now().timeZoneOffset),
-      createdBy: map['createdBy'],
-      lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(map['lastUpdatedAt']).add(DateTime.now().timeZoneOffset),
-      isActive: map['isActive'],
-      logo: map['logo'],
-      hitCount: map['hitCount'],
-    );
+    try {
+      final Map<String, dynamic> map = Map<String, dynamic>.from(doc.data() as Map<String, dynamic>);
+      return CredentialModel(
+        id: doc.id,
+        username: map['username'],
+        password: Encrypted.from(doc.get("password")),
+        url: map['url'],
+        remarks: map['remarks'],
+        createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']).add(DateTime.now().timeZoneOffset),
+        createdBy: map['createdBy'],
+        lastUpdatedAt: DateTime.fromMillisecondsSinceEpoch(map['lastUpdatedAt']).add(DateTime.now().timeZoneOffset),
+        isActive: map['isActive'],
+        logo: map['logo'],
+        hitCount: map['hitCount'],
+      );
+    } catch (e) {
+      throw Exception("Error parsing CredentialModel: $e");
+    }
   }
 }

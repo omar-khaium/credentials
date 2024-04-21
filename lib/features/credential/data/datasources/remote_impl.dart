@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:credentials/core/shared/extension/credential.dart';
 import 'package:credentials/core/shared/remote/endpoints.dart';
 import 'package:credentials/features/credential/data/models/credential.dart';
 
+import '../../domain/entities/credential.dart';
 import 'remote.dart';
 
 class CredentialRemoteDataSourceImpl implements CredentialRemoteDataSource {
@@ -26,5 +28,23 @@ class CredentialRemoteDataSourceImpl implements CredentialRemoteDataSource {
               (doc) => CredentialModel.parse(doc: doc),
             )
             .toList());
+  }
+
+  @override
+  Future<void> hit({
+    required CredentialEntity credential,
+  }) async {
+    final updatedCopy = credential.copyWith(
+      hitCount: (credential.hitCount ?? 0) + 1,
+    );
+    await firestore
+        .collection(
+          RemoteCollections.credentials,
+        )
+        .doc(credential.id)
+        .update(
+          updatedCopy.toMap(),
+        );
+    return;
   }
 }

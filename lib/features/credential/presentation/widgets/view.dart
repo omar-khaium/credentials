@@ -1,5 +1,6 @@
 import 'package:credentials/core/shared/extension/context.dart';
 import 'package:credentials/core/shared/extension/theme.dart';
+import 'package:credentials/features/credential/presentation/bloc/hit_credential_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,12 +9,23 @@ import '../../../../core/shared/shared.dart';
 import '../../../../core/shared/theme/theme_bloc.dart';
 import '../../domain/entities/credential.dart';
 
-class ViewCredentialWidget extends StatelessWidget {
+class ViewCredentialWidget extends StatefulWidget {
   final CredentialEntity credential;
   const ViewCredentialWidget({
     super.key,
     required this.credential,
   });
+
+  @override
+  State<ViewCredentialWidget> createState() => _ViewCredentialWidgetState();
+}
+
+class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HitCredentialBloc>().add(HitCredential(credential: widget.credential));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +51,9 @@ class ViewCredentialWidget extends StatelessWidget {
                 color: theme.background,
                 child: AspectRatio(
                   aspectRatio: 2,
-                  child: credential.logo != null
+                  child: widget.credential.logo != null
                       ? Image.network(
-                          credential.logo!,
+                          widget.credential.logo!,
                           fit: BoxFit.cover,
                         )
                       : Center(
@@ -58,7 +70,7 @@ class ViewCredentialWidget extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
-                  credential.url,
+                  widget.credential.url,
                   style: TextStyles.title(context: context, color: theme.text),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -73,7 +85,7 @@ class ViewCredentialWidget extends StatelessWidget {
                   child: ListTile(
                     leading: Icon(Icons.account_circle_outlined, color: theme.link),
                     title: Text(
-                      credential.username,
+                      widget.credential.username,
                       style: TextStyles.subTitle(context: context, color: theme.link).copyWith(
                         fontWeight: FontWeight.bold,
                       ),
@@ -82,7 +94,7 @@ class ViewCredentialWidget extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.copy, color: theme.link),
                     onTap: () async {
-                      await Clipboard.setData(ClipboardData(text: credential.username));
+                      await Clipboard.setData(ClipboardData(text: widget.credential.username));
                       context.successNotification(message: "username copied");
                     },
                   ),
@@ -106,7 +118,7 @@ class ViewCredentialWidget extends StatelessWidget {
                     ),
                     trailing: Icon(Icons.copy, color: theme.link),
                     onTap: () async {
-                      await Clipboard.setData(ClipboardData(text: credential.password));
+                      await Clipboard.setData(ClipboardData(text: widget.credential.password));
                       context.successNotification(message: "password copied");
                     },
                   ),

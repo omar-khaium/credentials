@@ -7,6 +7,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:credentials/core/shared/theme/scheme.dart';
 import 'package:credentials/core/shared/theme/theme_bloc.dart';
 import 'package:credentials/features/authentication/presentation/bloc/authentication_bloc.dart';
+import 'package:credentials/features/credential/domain/usecases/hit.dart';
+import 'package:credentials/features/credential/presentation/bloc/hit_credential_bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

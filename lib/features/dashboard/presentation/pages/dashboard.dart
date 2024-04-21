@@ -2,7 +2,9 @@ import 'package:credentials/core/shared/extension/context.dart';
 import 'package:credentials/core/shared/extension/theme.dart';
 import 'package:credentials/core/shared/shared.dart';
 import 'package:credentials/features/authentication/presentation/pages/authentication.dart';
+import 'package:credentials/features/credential/domain/entities/credential.dart';
 import 'package:credentials/features/credential/presentation/bloc/credential_bloc.dart';
+import 'package:credentials/features/credential/presentation/bloc/hit_credential_bloc.dart';
 import 'package:credentials/features/credential/presentation/widgets/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +16,11 @@ import 'package:intl/intl.dart';
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/theme/theme_bloc.dart';
 import '../../../../src/view/routes/route_archive.dart';
+
+part '../widgets/all.dart';
+part '../widgets/all_item.dart';
+part '../widgets/populer.dart';
+part '../widgets/populer_item.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String path = "/";
@@ -130,240 +137,12 @@ class _DashboardPageState extends State<DashboardPage> {
               ),
             ],
           ),
-          body: BlocBuilder<CredentialBloc, CredentialState>(
-            builder: (context, state) {
-              if (state is CredentialLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is CredentialDone) {
-                return ListView(
-                  shrinkWrap: true,
-                  children: [
-                    if (state.popular.isNotEmpty) ...[
-                      const SizedBox(height: 24),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const SizedBox(width: 24),
-                          Icon(
-                            Icons.star_rounded,
-                            color: theme.warning,
-                            weight: 700,
-                            grade: 200,
-                          ),
-                          const SizedBox(width: 16),
-                          Text(
-                            "Most Popular Credentials",
-                            style: TextStyles.body(
-                              context: context,
-                              color: theme.warning,
-                            ).copyWith(fontWeight: FontWeight.bold),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                      MasonryGridView.count(
-                        shrinkWrap: true,
-                        scrollDirection: Axis.vertical,
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 16,
-                        mainAxisSpacing: 16,
-                        padding: EdgeInsets.all(24),
-                        clipBehavior: Clip.none,
-                        itemCount: state.popular.length,
-                        physics: NeverScrollableScrollPhysics(),
-                        itemBuilder: (_, index) {
-                          final credential = state.credentials[index];
-                          return Container(
-                            clipBehavior: Clip.antiAlias,
-                            decoration: BoxDecoration(
-                              color: theme.background,
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                width: 3,
-                                color: theme.accent.shade50,
-                                strokeAlign: BorderSide.strokeAlignOutside,
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                PhysicalModel(
-                                  color: theme.accent.shade50,
-                                  child: SizedBox(
-                                    width: 54,
-                                    height: 54,
-                                    child: credential.logo != null
-                                        ? Image.network(
-                                            credential.logo!,
-                                            fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
-                                            "assets/icon.png",
-                                            fit: BoxFit.cover,
-                                            width: 24,
-                                            height: 24,
-                                          ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(height: 8),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(horizontal: 16),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              credential.url,
-                                              style: TextStyles.subTitle(context: context, color: theme.link),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                            Text(
-                                              credential.username,
-                                              style: TextStyles.caption(context: context, color: theme.text),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      const SizedBox(height: 8),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(height: 12),
-                      Divider(),
-                      const SizedBox(height: 12),
-                    ],
-                    MasonryGridView.count(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.vertical,
-                      crossAxisCount: 4,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                      padding: EdgeInsets.all(24),
-                      clipBehavior: Clip.none,
-                      itemCount: state.credentials.length,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemBuilder: (_, index) {
-                        final credential = state.credentials[index];
-                        return Container(
-                          clipBehavior: Clip.antiAlias,
-                          decoration: BoxDecoration(
-                            color: theme.background,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              width: 3,
-                              color: theme.accent.shade50,
-                              strokeAlign: BorderSide.strokeAlignOutside,
-                            ),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  backgroundColor: theme.background,
-                                  surfaceTintColor: theme.background,
-                                  contentPadding: EdgeInsets.zero,
-                                  content: ViewCredentialWidget(credential: credential),
-                                ),
-                              );
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                PhysicalModel(
-                                  color: theme.accent.shade50,
-                                  child: AspectRatio(
-                                    aspectRatio: 3,
-                                    child: Stack(
-                                      children: [
-                                        Positioned.fill(
-                                          child: credential.logo != null
-                                              ? Image.network(
-                                                  credential.logo!,
-                                                  fit: BoxFit.cover,
-                                                )
-                                              : Center(
-                                                  child: Image.asset(
-                                                    "assets/icon.png",
-                                                    fit: BoxFit.cover,
-                                                    width: 48,
-                                                    height: 48,
-                                                  ),
-                                                ),
-                                        ),
-                                        if (credential.hitCount != null && credential.hitCount! > 10)
-                                          Positioned(
-                                            right: 0,
-                                            top: 0,
-                                            child: Icon(
-                                              Icons.star_rounded,
-                                              color: theme.warning,
-                                              weight: 700,
-                                              grade: 200,
-                                            ),
-                                          ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        credential.url,
-                                        style: TextStyles.title(context: context, color: theme.link),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        credential.username,
-                                        style: TextStyles.subTitle(context: context, color: theme.text),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                      const SizedBox(height: 8),
-                                      Text(
-                                        "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
-                                        style: TextStyles.caption(context: context, color: theme.hint),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(height: 12),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ],
-                );
-              } else if (state is CredentialError) {
-                return Center(child: Text(state.failure.message));
-              }
-              return Container();
-            },
+          body: ListView(
+            shrinkWrap: true,
+            children: [
+              _Popular(),
+              _All(),
+            ],
           ),
           floatingActionButton: Tooltip(
             message: 'Add new credential',
