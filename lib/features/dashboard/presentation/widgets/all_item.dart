@@ -49,19 +49,21 @@ class _AllItem extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: credential.logo != null
-                              ? Image.network(
-                                  credential.logo!,
-                                  fit: BoxFit.cover,
-                                )
-                              : Center(
-                                  child: Image.asset(
+                          child: Center(
+                            child: credential.logo != null
+                                ? Image.network(
+                                    credential.logo!,
+                                    fit: BoxFit.contain,
+                                    width: 72,
+                                    height: 72,
+                                  )
+                                : Image.asset(
                                     "assets/icon.png",
                                     fit: BoxFit.cover,
                                     width: 48,
                                     height: 48,
                                   ),
-                                ),
+                          ),
                         ),
                         if (credential.hitCount != null && credential.hitCount! > 10)
                           Positioned(

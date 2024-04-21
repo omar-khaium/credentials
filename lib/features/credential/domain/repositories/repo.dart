@@ -9,4 +9,16 @@ abstract class CredentialRepository {
   Future<Either<Failure, void>> hit({
     required CredentialEntity credential,
   });
+  
+  Future<Either<Failure, void>> create({
+    required CredentialEntity credential,
+  });
+  
+  Future<Either<Failure, void>> update({
+    required CredentialEntity credential,
+  });
+  
+  Future<Either<Failure, void>> archive({
+    required CredentialEntity credential,
+  });
 }

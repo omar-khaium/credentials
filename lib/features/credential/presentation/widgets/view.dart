@@ -4,10 +4,15 @@ import 'package:credentials/features/credential/presentation/bloc/hit_credential
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/config/config.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../../core/shared/theme/theme_bloc.dart';
 import '../../domain/entities/credential.dart';
+import '../bloc/archive_credential_bloc.dart';
+import '../bloc/update_credential_bloc.dart';
+import 'update.dart';
 
 class ViewCredentialWidget extends StatefulWidget {
   final CredentialEntity credential;
@@ -54,7 +59,9 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
                   child: widget.credential.logo != null
                       ? Image.network(
                           widget.credential.logo!,
-                          fit: BoxFit.cover,
+                          fit: BoxFit.contain,
+                          width: 54,
+                          height: 54,
                         )
                       : Center(
                           child: Image.asset(
@@ -122,6 +129,78 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
                       context.successNotification(message: "password copied");
                     },
                   ),
+                ),
+              ),
+              Divider(thickness: 1, color: theme.accent.shade50, height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (_) => AlertDialog(
+                              insetPadding: EdgeInsets.zero,
+                              scrollable: true,
+                              content: BlocProvider(
+                                create: (_) => sl<UpdateCredentialBloc>(),
+                                child: UpdateCredentialWidget(
+                                  credential: widget.credential,
+                                ),
+                              ),
+                              contentPadding: EdgeInsets.zero,
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent.shade700,
+                        ),
+                        icon: Icon(Icons.edit_outlined, color: theme.background),
+                        label: Text(
+                          "Edit",
+                          style: TextStyles.body(context: context, color: theme.background),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: BlocProvider(
+                        create: (context) => sl<ArchiveCredentialBloc>(),
+                        child: BlocConsumer<ArchiveCredentialBloc, ArchiveCredentialState>(
+                          listener: (_, state) {
+                            if (state is ArchiveCredentialDone) {
+                              context.successNotification(message: "Credential archived");
+                              context.pop();
+                            } else if (state is ArchiveCredentialError) {
+                              context.errorNotification(message: state.failure.message);
+                            }
+                          },
+                          builder: (builderContext, state) {
+                            if (state is ArchiveCredentialLoading) {
+                              return ElevatedButton(
+                                onPressed: () {},
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return ElevatedButton.icon(
+                              onPressed: () {
+                                builderContext
+                                    .read<ArchiveCredentialBloc>()
+                                    .add(ArchiveCredential(credential: widget.credential));
+                              },
+                              icon: Icon(Icons.archive_outlined, color: theme.background),
+                              label: Text(
+                                "Archive",
+                                style: TextStyles.body(context: context, color: theme.background),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),

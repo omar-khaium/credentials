@@ -47,4 +47,51 @@ class CredentialRemoteDataSourceImpl implements CredentialRemoteDataSource {
         );
     return;
   }
+
+  @override
+  Future<void> archive({
+    required CredentialEntity credential,
+  }) async {
+    final updatedCopy = credential.copyWith(
+      isActive: false,
+    );
+    await firestore
+        .collection(
+          RemoteCollections.credentials,
+        )
+        .doc(credential.id)
+        .update(
+          updatedCopy.toMap(),
+        );
+    return;
+  }
+
+  @override
+  Future<void> create({
+    required CredentialEntity credential,
+  }) async {
+    await firestore
+        .collection(
+          RemoteCollections.credentials,
+        )
+        .add(
+          credential.toCreateMap(),
+        );
+    return;
+  }
+
+  @override
+  Future<void> update({
+    required CredentialEntity credential,
+  }) async {
+    await firestore
+        .collection(
+          RemoteCollections.credentials,
+        )
+        .doc(credential.id)
+        .update(
+          credential.toMap(),
+        );
+    return;
+  }
 }

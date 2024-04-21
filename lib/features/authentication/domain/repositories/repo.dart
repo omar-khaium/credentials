@@ -8,4 +8,13 @@ abstract class AuthenticationRepository {
     required String email,
     required String password,
   });
+
+  Future<Either<Failure, User>> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  });
+
+  Future<Either<Failure, void>> forgotPassword({
+    required String email,
+  });
 }

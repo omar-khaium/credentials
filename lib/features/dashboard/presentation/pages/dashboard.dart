@@ -3,8 +3,10 @@ import 'package:credentials/core/shared/extension/theme.dart';
 import 'package:credentials/core/shared/shared.dart';
 import 'package:credentials/features/authentication/presentation/pages/authentication.dart';
 import 'package:credentials/features/credential/domain/entities/credential.dart';
+import 'package:credentials/features/credential/presentation/bloc/create_credential_bloc.dart';
 import 'package:credentials/features/credential/presentation/bloc/credential_bloc.dart';
 import 'package:credentials/features/credential/presentation/bloc/hit_credential_bloc.dart';
+import 'package:credentials/features/credential/presentation/widgets/add.dart';
 import 'package:credentials/features/credential/presentation/widgets/view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +17,6 @@ import 'package:intl/intl.dart';
 
 import '../../../../core/config/config.dart';
 import '../../../../core/shared/theme/theme_bloc.dart';
-import '../../../../src/view/routes/route_archive.dart';
 
 part '../widgets/all.dart';
 part '../widgets/all_item.dart';
@@ -102,9 +103,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 message: 'Archives',
                 child: IconButton(
                   icon: Icon(Icons.archive_outlined),
-                  onPressed: () async {
-                    Navigator.of(context).pushNamed(ArchiveRoute().route);
-                  },
+                  onPressed: () async {},
                 ),
               ),
               Tooltip(
@@ -148,7 +147,20 @@ class _DashboardPageState extends State<DashboardPage> {
             message: 'Add new credential',
             child: FloatingActionButton(
               child: Icon(Icons.add),
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    insetPadding: EdgeInsets.zero,
+                    scrollable: true,
+                    content: BlocProvider(
+                      create: (_) => sl<CreateCredentialBloc>(),
+                      child: CreateCredentialWidget(),
+                    ),
+                    contentPadding: EdgeInsets.zero,
+                  ),
+                );
+              },
             ),
           ),
         );

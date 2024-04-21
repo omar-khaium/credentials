@@ -45,19 +45,21 @@ class _PopularItem extends StatelessWidget {
                   child: SizedBox(
                     width: 54,
                     height: 54,
-                    child: credential.logo != null
-                        ? Image.network(
-                            credential.logo!,
-                            fit: BoxFit.cover,
-                          )
-                        : Center(
-                            child: Image.asset(
+                    child: Center(
+                      child: credential.logo != null
+                          ? Image.network(
+                              credential.logo!,
+                              fit: BoxFit.contain,
+                              width: 42,
+                              height: 42,
+                            )
+                          : Image.asset(
                               "assets/icon.png",
                               fit: BoxFit.cover,
                               width: 24,
                               height: 24,
                             ),
-                          ),
+                    ),
                   ),
                 ),
                 Expanded(

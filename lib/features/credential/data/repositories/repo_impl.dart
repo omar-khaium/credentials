@@ -32,4 +32,40 @@ class CredentialRepositoryImpl extends CredentialRepository {
       return Left(e);
     }
   }
+
+  @override
+  Future<Either<Failure, void>> archive({
+    required CredentialEntity credential,
+  }) async {
+    try {
+      await remote.archive(credential: credential);
+      return Right(null);
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> create({
+    required CredentialEntity credential,
+  }) async {
+    try {
+      await remote.create(credential: credential);
+      return Right(null);
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> update({
+    required CredentialEntity credential,
+  }) async {
+    try {
+      await remote.update(credential: credential);
+      return Right(null);
+    } on Failure catch (e) {
+      return Left(e);
+    }
+  }
 }

@@ -26,9 +26,29 @@ Future<void> get _authentication async {
       usecase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => RegistrationBloc(
+      usecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ForgotPasswordBloc(
+      usecase: sl(),
+    ),
+  );
 
   sl.registerFactory(
     () => AuthenticationUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => RegistrationUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ForgotPasswordUsecase(
       repository: sl(),
     ),
   );
@@ -51,6 +71,21 @@ Future<void> get _credentials async {
       usecase: sl(),
     ),
   );
+  sl.registerFactory(
+    () => CreateCredentialBloc(
+      usecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UpdateCredentialBloc(
+      usecase: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ArchiveCredentialBloc(
+      usecase: sl(),
+    ),
+  );
 
   sl.registerFactory(
     () => FetchCredentialsUsecase(
@@ -59,6 +94,21 @@ Future<void> get _credentials async {
   );
   sl.registerFactory(
     () => CredentialHitUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => CreateCredentialUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => UpdateCredentialUsecase(
+      repository: sl(),
+    ),
+  );
+  sl.registerFactory(
+    () => ArchiveCredentialUsecase(
       repository: sl(),
     ),
   );

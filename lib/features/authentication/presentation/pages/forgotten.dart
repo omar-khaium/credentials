@@ -1,45 +1,29 @@
 import 'package:credentials/core/shared/extension/context.dart';
 import 'package:credentials/core/shared/extension/theme.dart';
-import 'package:credentials/features/authentication/presentation/pages/forgotten.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../core/config/config.dart';
 import '../../../../core/shared/loading_indicator.dart';
 import '../../../../core/shared/shared.dart';
 import '../../../../core/shared/theme/theme_bloc.dart';
-import '../../../dashboard/presentation/pages/dashboard.dart';
-import '../bloc/authentication_bloc.dart';
-import 'registration.dart';
+import '../bloc/forgot_password_bloc.dart';
 
-class AuthenticationPage extends StatefulWidget {
-  static const String path = "/authentication";
-  static const String tag = "AuthenticationPage";
+class ForgottenPasswordPage extends StatefulWidget {
+  static const String path = "/forgotten-password";
+  static const String tag = "ForgottenPasswordPage";
 
-  const AuthenticationPage({super.key});
+  const ForgottenPasswordPage({super.key});
 
   @override
-  State<AuthenticationPage> createState() => _AuthenticationPageState();
+  State<ForgottenPasswordPage> createState() => _ForgottenPasswordPageState();
 }
 
-class _AuthenticationPageState extends State<AuthenticationPage> {
+class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    sl<FirebaseAuth>().authStateChanges().listen((user) {
-      if (user != null) {
-        context.goNamed(DashboardPage.tag);
-      }
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,10 +33,9 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
 
         final VoidCallback onSubmit = () {
           if (formKey.currentState?.validate() ?? false) {
-            context.read<AuthenticationBloc>().add(
-                  Authenticate(
+            context.read<ForgotPasswordBloc>().add(
+                  ForgotPassword(
                     email: emailController.text,
-                    password: passwordController.text,
                   ),
                 );
           }
@@ -70,49 +53,15 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           },
         );
 
-        final passwordField = TextFormField(
-          controller: passwordController,
-          keyboardType: TextInputType.text,
-          textInputAction: TextInputAction.done,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (val) => (val?.isNotEmpty ?? false) ? null : "",
-          decoration: const InputDecoration(hintText: "password"),
-          obscureText: true,
-          onFieldSubmitted: (value) {
-            onSubmit();
-          },
-        );
-
-        final forgotPassword = InkWell(
-          onTap: () {
-            context.pushNamed(ForgottenPasswordPage.tag);
-          },
-          child: Text(
-            "Forgotten password?",
-            style: TextStyles.title(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.end,
-          ),
-        );
-
-        final signUp = InkWell(
-          onTap: () {
-            context.pushNamed(RegistrationPage.tag);
-          },
-          child: Text(
-            "Create an account",
-            style: TextStyles.title(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
-            textAlign: TextAlign.center,
-          ),
-        );
-
         final submitButton = SizedBox(
           width: MediaQuery.of(context).size.width,
-          height: kToolbarHeight,
-          child: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+          child: BlocConsumer<ForgotPasswordBloc, ForgotPasswordState>(
             listener: (_, state) {
-              if (state is AuthenticationDone) {
-                context.goNamed(DashboardPage.tag);
-              } else if (state is AuthenticationError) {
+              if (state is ForgotPasswordDone) {
+                context.pop();
+                context.successNotification(
+                    message: "A password reset link has been sent to your email. Please check your inbox.");
+              } else if (state is ForgotPasswordError) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(
@@ -125,7 +74,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
               }
             },
             builder: (_, state) {
-              if (state is AuthenticationLoading) {
+              if (state is ForgotPasswordLoading) {
                 return ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -136,7 +85,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   ),
                   child: const NetworkingIndicator(dimension: 24, color: Colors.white),
                 );
-              } else if (state is AuthenticationDone) {
+              } else if (state is ForgotPasswordDone) {
                 return ElevatedButton(
                   onPressed: () {},
                   style: ElevatedButton.styleFrom(
@@ -161,8 +110,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                   ),
                   onPressed: onSubmit,
                   child: Text(
-                    "Login".toUpperCase(),
-                    style: TextStyles.title(context: context, color: Colors.white).copyWith(
+                    "Submit".toUpperCase(),
+                    style: TextStyles.miniHeadline(context: context, color: Colors.white).copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -182,7 +131,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                     centerTitle: false,
                     titleSpacing: 32,
                     title: Text(
-                      "Login",
+                      "Reset password",
                       style: TextStyles.headline(context: context, color: Colors.black),
                     ),
                   )
@@ -205,12 +154,8 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                 const SizedBox(height: 16),
                                 usernameField,
                                 const SizedBox(height: 16),
-                                passwordField,
-                                const SizedBox(height: 16),
                               ],
                             ),
-                            signUp,
-                            const SizedBox(height: 16),
                             submitButton,
                           ],
                         ),
@@ -229,7 +174,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: theme.accent.shade50,
+                              color: theme.highlight,
                             ),
                             child: Center(
                               child: Image.asset(
@@ -244,7 +189,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         VerticalDivider(),
                         Expanded(
                           child: Container(
-                            color: theme.accent.shade100,
+                            color: theme.tag,
                             child: Center(
                               child: Form(
                                 key: formKey,
@@ -252,16 +197,26 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                                   shrinkWrap: true,
                                   padding: const EdgeInsets.all(32),
                                   children: [
-                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        IconButton(
+                                          onPressed: () {
+                                            context.pop();
+                                          },
+                                          icon: const Icon(Icons.arrow_back_rounded),
+                                          color: theme.text,
+                                        ),
+                                        Text(
+                                          "Reset password",
+                                          style: TextStyles.title(context: context, color: theme.text),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 64),
                                     usernameField,
                                     const SizedBox(height: 16),
-                                    passwordField,
-                                    const SizedBox(height: 16),
-                                    forgotPassword,
-                                    const SizedBox(height: 16),
                                     submitButton,
-                                    const SizedBox(height: 16),
-                                    signUp,
                                   ],
                                 ),
                               ),

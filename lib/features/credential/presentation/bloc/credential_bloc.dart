@@ -18,6 +18,7 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
         await for (var credentials in usecase()) {
           final popular = credentials.where((e) => (e.hitCount ?? 0) > 10).toList();
           popular.sort((a, b) => b.hitCount!.compareTo(a.hitCount!));
+          credentials.sort((a, b) => a.url.toLowerCase().compareTo(b.url.toLowerCase()));
 
           emit(CredentialDone(
             credentials: credentials,
@@ -33,8 +34,11 @@ class CredentialBloc extends Bloc<CredentialEvent, CredentialState> {
         final CredentialDone currentState = state as CredentialDone;
         final List<CredentialEntity> credentials = currentState.credentials;
         final List<CredentialEntity> popular = currentState.popular;
-        final List<CredentialEntity> filtered =
-            credentials.where((e) => e.url.toLowerCase().contains(event.query.toLowerCase())).toList();
+        final List<CredentialEntity> filtered = credentials
+            .where(
+              (e) => e.url.toLowerCase().contains(event.query.toLowerCase()),
+            )
+            .toList();
         emit(CredentialDone(
           credentials: filtered,
           popular: popular,

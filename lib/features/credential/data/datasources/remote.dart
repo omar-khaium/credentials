@@ -8,4 +8,16 @@ abstract class CredentialRemoteDataSource {
   Future<void> hit({
     required CredentialEntity credential,
   });
+
+  Future<void> create({
+    required CredentialEntity credential,
+  });
+
+  Future<void> update({
+    required CredentialEntity credential,
+  });
+
+  Future<void> archive({
+    required CredentialEntity credential,
+  });
 }

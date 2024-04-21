@@ -45,4 +45,19 @@ extension CredentialExtension on CredentialEntity {
       "hitCount": hitCount,
     };
   }
+
+  Map<String, dynamic> toCreateMap() {
+    return {
+      "username": username,
+      "password": Encrypted.to(password),
+      "url": url,
+      "remarks": remarks,
+      "createdAt": createdAt.millisecondsSinceEpoch,
+      "createdBy": createdBy,
+      "lastUpdatedAt": lastUpdatedAt.millisecondsSinceEpoch,
+      "isActive": isActive,
+      "logo": logo,
+      "hitCount": hitCount,
+    };
+  }
 }

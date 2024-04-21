@@ -27,6 +27,7 @@ extension BuildContextExtension on BuildContext {
 
   double get smallestSide => MediaQuery.of(this).size.shortestSide;
   double get width => MediaQuery.of(this).size.width;
+  double get height => MediaQuery.of(this).size.height;
 
   ScaffoldMessengerState successNotification({
     required String message,

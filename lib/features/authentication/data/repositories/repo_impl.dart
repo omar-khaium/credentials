@@ -32,4 +32,48 @@ class AuthenticationRepositoryImpl implements AuthenticationRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, User>> signUpWithEmailAndPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final credential = await auth.createUserWithEmailAndPassword(email: email, password: password);
+      await credential.user?.sendEmailVerification();
+      return Right(credential.user!);
+    } on Failure catch (e) {
+      return Left(e);
+    } on FirebaseAuthException catch (e) {
+      return Left(RemoteFailure(message: e.message!));
+    } catch (e, stackTrace) {
+      return Left(
+        UnknownFailure(
+          message: e.toString(),
+          stackTrace: stackTrace,
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> forgotPassword({
+    required String email,
+  }) async {
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return const Right(null);
+    } on Failure catch (e) {
+      return Left(e);
+    } on FirebaseAuthException catch (e) {
+      return Left(RemoteFailure(message: e.message!));
+    } catch (e, stackTrace) {
+      return Left(
+        UnknownFailure(
+          message: e.toString(),
+          stackTrace: stackTrace,
+        ),
+      );
+    }
+  }
 }
