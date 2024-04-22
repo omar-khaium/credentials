@@ -14,6 +14,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
@@ -62,6 +63,8 @@ class AppConfig {
     await FirebaseAuth.instance.setPersistence(Persistence.LOCAL);
 
     await FirebaseAuth.instance.authStateChanges().first;
+
+    usePathUrlStrategy();
   }
 
   static ThemeData theme({
