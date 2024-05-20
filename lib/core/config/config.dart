@@ -74,23 +74,23 @@ class AppConfig {
       ThemeData(
         brightness: Brightness.light,
         canvasColor: theme.background,
-        shadowColor: theme.shadow,
-        indicatorColor: theme.accent,
-        splashColor: theme.tag,
-        highlightColor: theme.highlight,
+        shadowColor: theme.tertiary,
+        indicatorColor: theme.secondary,
+        splashColor: theme.tertiary,
+        highlightColor: theme.secondary,
         splashFactory: InkRipple.splashFactory,
-        dividerColor: theme.shadow,
-        dividerTheme: DividerThemeData(color: theme.shadow, space: 1, thickness: 1),
-        primaryColor: theme.accent,
-        progressIndicatorTheme: ProgressIndicatorThemeData(color: theme.accent),
+        dividerColor: theme.tertiary,
+        dividerTheme: DividerThemeData(color: theme.tertiary, space: 1, thickness: 1),
+        primaryColor: theme.primary,
+        progressIndicatorTheme: ProgressIndicatorThemeData(color: theme.primary),
         inputDecorationTheme: InputDecorationTheme(
           isDense: true,
           filled: true,
-          fillColor: theme.card,
+          fillColor: theme.tertiary,
           labelStyle: TextStyles.body(context: context, color: theme.text),
           contentPadding: const EdgeInsets.all(16.0),
-          hintStyle: TextStyles.body(context: context, color: theme.hint),
-          errorStyle: TextStyles.caption(context: context, color: theme.error).copyWith(height: 0, fontSize: 0),
+          hintStyle: TextStyles.body(context: context, color: theme.text.withAlpha(125)),
+          errorStyle: TextStyles.caption(context: context, color: theme.primary).copyWith(height: 0, fontSize: 0),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(color: Colors.black, width: .5),
@@ -109,11 +109,11 @@ class AppConfig {
           ),
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: theme.error, width: 1),
+            borderSide: BorderSide(color: theme.primary, width: 1),
           ),
           focusedErrorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
-            borderSide: BorderSide(color: theme.error, width: 3),
+            borderSide: BorderSide(color: theme.primary, width: 3),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
@@ -123,15 +123,15 @@ class AppConfig {
               borderRadius: BorderRadius.circular(8),
             ),
             elevation: 1,
-            shadowColor: theme.shadow,
+            shadowColor: theme.primary,
             padding: const EdgeInsets.all(16),
           ),
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            foregroundColor: theme.accent,
+            foregroundColor: theme.primary,
             elevation: 3,
-            shadowColor: theme.shadow,
+            shadowColor: theme.tertiary,
             backgroundColor: Colors.white,
             shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -143,13 +143,13 @@ class AppConfig {
         appBarTheme: AppBarTheme(
           iconTheme: const IconThemeData(color: Colors.black),
           titleSpacing: 0,
-          actionsIconTheme: IconThemeData(color: theme.accent),
+          actionsIconTheme: IconThemeData(color: theme.primary),
           backgroundColor: theme.background,
           surfaceTintColor: theme.background,
           elevation: 0,
         ),
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: theme.accent,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: theme.primary,
         ).copyWith(background: theme.background),
       );
 }

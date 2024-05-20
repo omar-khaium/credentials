@@ -154,7 +154,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: PhysicalModel(
-                      color: theme.accent.shade50,
+                      color: theme.tertiary,
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
                       child: Form(
                         key: formKey,
@@ -190,7 +190,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: theme.accent.shade100,
+                              color: theme.tertiary,
                             ),
                             child: Center(
                               child: Image.asset(
@@ -205,7 +205,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         VerticalDivider(),
                         Expanded(
                           child: Container(
-                            color: theme.accent.shade50,
+                            color: theme.tertiary,
                             child: Center(
                               child: Form(
                                 key: formKey,

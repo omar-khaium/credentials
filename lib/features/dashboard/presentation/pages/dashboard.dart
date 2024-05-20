@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage> {
             backgroundColor: theme.background,
             automaticallyImplyLeading: true,
             scrolledUnderElevation: 1,
-            shadowColor: theme.shadow,
+            shadowColor: theme.tertiary,
             leading: Container(
               margin: EdgeInsets.only(left: 16, right: 8),
               child: Image.asset("assets/icon.png"),
@@ -78,10 +78,10 @@ class _DashboardPageState extends State<DashboardPage> {
                   },
                   decoration: InputDecoration(
                     hintText: "Search",
-                    hintStyle: TextStyles.caption(context: context, color: theme.hint),
-                    prefixIcon: Icon(Icons.search_rounded, color: theme.hint),
+                    hintStyle: TextStyles.caption(context: context, color: theme.text.withAlpha(125)),
+                    prefixIcon: Icon(Icons.search_rounded, color: theme.text.withAlpha(125)),
                     filled: true,
-                    fillColor: theme.accent.shade50,
+                    fillColor: theme.tertiary,
                     contentPadding: EdgeInsets.symmetric(horizontal: 16),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(100),

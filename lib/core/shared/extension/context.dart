@@ -11,16 +11,6 @@ extension BuildContextExtension on BuildContext {
 
   TextTheme get textTheme => theme.textTheme;
 
-  Color get primaryColor => theme.primaryColor;
-
-  Color get hintColor => theme.hintColor;
-
-  Color get textColor => Colors.black;
-
-  Color get secondaryColor => theme.cardColor;
-
-  Color get backgroundColor => Colors.white;
-
   double get topInset => MediaQuery.of(this).padding.top;
 
   double get bottomInset => MediaQuery.of(this).padding.bottom;
@@ -38,7 +28,7 @@ extension BuildContextExtension on BuildContext {
         message,
         style: TextStyles.body(context: this, color: theme.background),
       ),
-      backgroundColor: theme.success,
+      backgroundColor: theme.tertiary,
     );
     return ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
@@ -54,7 +44,7 @@ extension BuildContextExtension on BuildContext {
         message,
         style: TextStyles.body(context: this, color: theme.background),
       ),
-      backgroundColor: theme.error,
+      backgroundColor: theme.secondary,
     );
     return ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()
@@ -70,7 +60,7 @@ extension BuildContextExtension on BuildContext {
         message,
         style: TextStyles.body(context: this, color: theme.background),
       ),
-      backgroundColor: theme.warning,
+      backgroundColor: theme.tertiary,
     );
     return ScaffoldMessenger.of(this)
       ..hideCurrentSnackBar()

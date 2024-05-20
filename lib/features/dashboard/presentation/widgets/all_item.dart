@@ -18,7 +18,7 @@ class _AllItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 3,
-              color: theme.accent.shade50,
+              color: theme.tertiary,
               strokeAlign: BorderSide.strokeAlignOutside,
             ),
           ),
@@ -43,7 +43,7 @@ class _AllItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 PhysicalModel(
-                  color: theme.accent.shade50,
+                  color: theme.tertiary,
                   child: AspectRatio(
                     aspectRatio: 3,
                     child: Stack(
@@ -71,7 +71,7 @@ class _AllItem extends StatelessWidget {
                             top: 8,
                             child: Icon(
                               Icons.star_rounded,
-                              color: theme.warning,
+                              color: theme.secondary,
                               weight: 700,
                               grade: 200,
                             ),
@@ -89,7 +89,7 @@ class _AllItem extends StatelessWidget {
                     children: [
                       Text(
                         credential.url,
-                        style: TextStyles.title(context: context, color: theme.link),
+                        style: TextStyles.title(context: context, color: theme.primary),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -103,7 +103,7 @@ class _AllItem extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         "Last updated: ${DateFormat("h:mm a d MMM, yy").format(credential.lastUpdatedAt.toLocal())}",
-                        style: TextStyles.caption(context: context, color: theme.hint),
+                        style: TextStyles.caption(context: context, color: theme.text.withAlpha(125)),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),

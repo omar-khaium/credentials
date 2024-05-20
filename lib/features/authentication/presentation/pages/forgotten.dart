@@ -140,7 +140,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: PhysicalModel(
-                      color: theme.accent.shade50,
+                      color: theme.tertiary,
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
                       child: Form(
                         key: formKey,
@@ -174,7 +174,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: theme.highlight,
+                              color: theme.tertiary,
                             ),
                             child: Center(
                               child: Image.asset(
@@ -189,7 +189,7 @@ class _ForgottenPasswordPageState extends State<ForgottenPasswordPage> {
                         VerticalDivider(),
                         Expanded(
                           child: Container(
-                            color: theme.tag,
+                            color: theme.tertiary,
                             child: Center(
                               child: Form(
                                 key: formKey,

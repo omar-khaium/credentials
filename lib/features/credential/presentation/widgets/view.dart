@@ -44,7 +44,7 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 8,
-              color: theme.accent.shade50,
+              color: theme.tertiary,
               strokeAlign: BorderSide.strokeAlignOutside,
             ),
           ),
@@ -73,7 +73,7 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
                         ),
                 ),
               ),
-              Divider(thickness: 1, color: theme.accent.shade50, height: 24),
+              Divider(thickness: 1, color: theme.tertiary, height: 24),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Text(
@@ -83,23 +83,23 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
-              Divider(thickness: 1, color: theme.accent.shade50, height: 24),
+              Divider(thickness: 1, color: theme.tertiary, height: 24),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PhysicalModel(
-                  color: theme.accent.shade50,
+                  color: theme.tertiary,
                   borderRadius: BorderRadius.circular(16),
                   child: ListTile(
-                    leading: Icon(Icons.account_circle_outlined, color: theme.link),
+                    leading: Icon(Icons.account_circle_outlined, color: theme.primary),
                     title: Text(
                       widget.credential.username,
-                      style: TextStyles.subTitle(context: context, color: theme.link).copyWith(
+                      style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Icon(Icons.copy, color: theme.link),
+                    trailing: Icon(Icons.copy, color: theme.primary),
                     onTap: () async {
                       await Clipboard.setData(ClipboardData(text: widget.credential.username));
                       context.successNotification(message: "username copied");
@@ -111,19 +111,19 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: PhysicalModel(
-                  color: theme.accent.shade50,
+                  color: theme.tertiary,
                   borderRadius: BorderRadius.circular(16),
                   child: ListTile(
-                    leading: Icon(Icons.lock_outline_rounded, color: theme.link),
+                    leading: Icon(Icons.lock_outline_rounded, color: theme.primary),
                     title: Text(
                       "**********",
-                      style: TextStyles.subTitle(context: context, color: theme.link).copyWith(
+                      style: TextStyles.subTitle(context: context, color: theme.primary).copyWith(
                         fontWeight: FontWeight.bold,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Icon(Icons.copy, color: theme.link),
+                    trailing: Icon(Icons.copy, color: theme.primary),
                     onTap: () async {
                       await Clipboard.setData(ClipboardData(text: widget.credential.password));
                       context.successNotification(message: "password copied");
@@ -131,7 +131,7 @@ class _ViewCredentialWidgetState extends State<ViewCredentialWidget> {
                   ),
                 ),
               ),
-              Divider(thickness: 1, color: theme.accent.shade50, height: 32),
+              Divider(thickness: 1, color: theme.tertiary, height: 32),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Row(

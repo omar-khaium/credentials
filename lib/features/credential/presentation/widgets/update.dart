@@ -63,7 +63,7 @@ class _UpdateCredentialWidgetState extends State<UpdateCredentialWidget> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 8,
-              color: theme.accent.shade50,
+              color: theme.tertiary,
               strokeAlign: BorderSide.strokeAlignOutside,
             ),
           ),
@@ -77,11 +77,11 @@ class _UpdateCredentialWidgetState extends State<UpdateCredentialWidget> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add_moderator, color: theme.accent),
+                      Icon(Icons.add_moderator, color: theme.primary),
                       SizedBox(width: 4),
                       Text(
                         "Modify Credential",
-                        style: TextStyles.miniHeadline(context: context, color: theme.accent)
+                        style: TextStyles.miniHeadline(context: context, color: theme.primary)
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -158,11 +158,11 @@ class _UpdateCredentialWidgetState extends State<UpdateCredentialWidget> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.security_rounded, color: theme.accent),
+                        Icon(Icons.security_rounded, color: theme.primary),
                         SizedBox(width: 4),
                         Text(
                           "Suggest password",
-                          style: TextStyles.body(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
+                          style: TextStyles.body(context: context, color: theme.primary).copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

@@ -34,14 +34,14 @@ class _PopularItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(16),
               border: Border.all(
                 width: 3,
-                color: theme.accent.shade50,
+                color: theme.tertiary,
                 strokeAlign: BorderSide.strokeAlignOutside,
               ),
             ),
             child: Row(
               children: [
                 PhysicalModel(
-                  color: theme.accent.shade50,
+                  color: theme.tertiary,
                   child: SizedBox(
                     width: 54,
                     height: 54,
@@ -76,7 +76,7 @@ class _PopularItem extends StatelessWidget {
                           children: [
                             Text(
                               credential.url,
-                              style: TextStyles.subTitle(context: context, color: theme.link),
+                              style: TextStyles.subTitle(context: context, color: theme.primary),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

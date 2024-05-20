@@ -89,7 +89,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           },
           child: Text(
             "Forgotten password?",
-            style: TextStyles.title(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
+            style: TextStyles.title(context: context, color: theme.primary).copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.end,
           ),
         );
@@ -100,7 +100,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
           },
           child: Text(
             "Create an account",
-            style: TextStyles.title(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
+            style: TextStyles.title(context: context, color: theme.primary).copyWith(fontWeight: FontWeight.bold),
             textAlign: TextAlign.center,
           ),
         );
@@ -191,7 +191,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                 ? Align(
                     alignment: Alignment.bottomCenter,
                     child: PhysicalModel(
-                      color: theme.accent.shade50,
+                      color: theme.tertiary,
                       borderRadius: const BorderRadius.vertical(top: Radius.circular(32)),
                       child: Form(
                         key: formKey,
@@ -229,7 +229,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         Expanded(
                           child: Container(
                             decoration: BoxDecoration(
-                              color: theme.accent.shade50,
+                              color: theme.primary,
                             ),
                             child: Center(
                               child: Image.asset(
@@ -244,7 +244,7 @@ class _AuthenticationPageState extends State<AuthenticationPage> {
                         VerticalDivider(),
                         Expanded(
                           child: Container(
-                            color: theme.accent.shade100,
+                            color: theme.tertiary,
                             child: Center(
                               child: Form(
                                 key: formKey,

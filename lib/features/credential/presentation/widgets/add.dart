@@ -45,7 +45,7 @@ class _CreateCredentialWidgetState extends State<CreateCredentialWidget> {
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
               width: 8,
-              color: theme.accent.shade50,
+              color: theme.tertiary,
               strokeAlign: BorderSide.strokeAlignOutside,
             ),
           ),
@@ -59,11 +59,11 @@ class _CreateCredentialWidgetState extends State<CreateCredentialWidget> {
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add_moderator, color: theme.accent),
+                      Icon(Icons.add_moderator, color: theme.primary),
                       SizedBox(width: 4),
                       Text(
                         "New Credential",
-                        style: TextStyles.miniHeadline(context: context, color: theme.accent)
+                        style: TextStyles.miniHeadline(context: context, color: theme.primary)
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
                     ],
@@ -140,11 +140,11 @@ class _CreateCredentialWidgetState extends State<CreateCredentialWidget> {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Icon(Icons.security_rounded, color: theme.accent),
+                        Icon(Icons.security_rounded, color: theme.primary),
                         SizedBox(width: 4),
                         Text(
                           "Suggest password",
-                          style: TextStyles.body(context: context, color: theme.accent).copyWith(fontWeight: FontWeight.bold),
+                          style: TextStyles.body(context: context, color: theme.primary).copyWith(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),

@@ -25,7 +25,7 @@ class _Popular extends StatelessWidget {
                       const SizedBox(width: 24),
                       Icon(
                         Icons.star_rounded,
-                        color: theme.warning,
+                        color: theme.secondary,
                         weight: 700,
                         grade: 200,
                       ),
@@ -34,7 +34,7 @@ class _Popular extends StatelessWidget {
                         "Most Popular Credentials",
                         style: TextStyles.body(
                           context: context,
-                          color: theme.warning,
+                          color: theme.secondary,
                         ).copyWith(fontWeight: FontWeight.bold),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
